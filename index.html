@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>J君優化專案首頁v3（GitHub 同步｜管理模式｜可筆畫排序）</title>
+    <meta property="og:title" content="J君優化專案首頁">
+    <meta property="og:description" content="專案連結與資源彙整">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="">
+    <meta property="og:image" content="https://raw.githubusercontent.com/jimmywu-commits/index/refs/heads/main/jimmypic.png">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="J君優化專案首頁">
+    <meta name="twitter:description" content="專案連結與資源彙整">
+    <meta name="twitter:image" content="https://raw.githubusercontent.com/jimmywu-commits/index/refs/heads/main/jimmypic.png">
+    <link rel="icon" href="https://raw.githubusercontent.com/jimmywu-commits/index/refs/heads/main/jimmypic.png">
+    <style>
+        :root {--primary:#00f2ff;--edit:#ffca28;--danger:#ff4d4d;--bg:#0a0e17;--card-bg:#11151c;--glow:0 10px 30px rgba(0,242,255,.25)}
+        body{background:var(--bg);color:#fff;font-family:'PingFang TC','Microsoft JhengHei',sans-serif;margin:0;padding:80px 20px;display:flex;flex-direction:column;align-items:center;-webkit-font-smoothing:antialiased}
+        a{text-decoration:none!important;color:inherit;outline:none}
+        .admin-controls{position:fixed;top:20px;right:20px;display:none;gap:10px;z-index:1000;flex-wrap:wrap;justify-content:flex-end}
+        .btn{border:1px solid var(--primary);padding:8px 18px;border-radius:4px;font-weight:700;cursor:pointer;transition:.2s;background:#000;color:var(--primary)}
+        .btn:hover{background:var(--primary);color:#000}
+        .btn.secondary{border-color:rgba(255,255,255,.25);color:rgba(255,255,255,.85)}
+        .btn.secondary:hover{background:rgba(255,255,255,.1);color:#fff;border-color:rgba(255,255,255,.35)}
+        .page-header{width:100%;max-width:1400px;display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:24px}
+        .page-header h1{letter-spacing:5px;margin:0;font-weight:300;text-shadow:0 0 20px rgba(255,255,255,.1);white-space:nowrap}
+        .filter-wrap{display:flex;align-items:center;gap:14px;flex-wrap:wrap;justify-content:flex-end}
+        .filter-group{display:flex;align-items:center;gap:10px}
+        .filter-label{color:rgba(255,255,255,.75);font-size:.95rem;letter-spacing:1px}
+        .select{appearance:none;-webkit-appearance:none;-moz-appearance:none;background:#000;color:var(--primary);border:1px solid #333;border-radius:6px;padding:10px 40px 10px 12px;cursor:pointer;position:relative;font-weight:600}
+        .select-wrap{position:relative;display:inline-flex;align-items:center}
+        .select-wrap::after{content:"▾";position:absolute;right:12px;pointer-events:none;color:rgba(0,242,255,.9);font-size:14px}
+        .status{width:100%;max-width:1400px;margin:0 0 22px;padding:12px 14px;border:1px solid rgba(0,242,255,.25);border-radius:10px;background:rgba(0,0,0,.35);color:rgba(255,255,255,.8);line-height:1.45;box-sizing:border-box}
+        .status strong{color:var(--primary)} .status .warn{color:rgba(255,202,40,.95);font-weight:700} .status a{color:var(--primary);text-decoration:underline!important}
+        .grid-container{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:30px;width:100%;max-width:1400px}
+        .card{background:var(--card-bg);border-radius:12px;position:relative;transform:translateZ(0);backface-visibility:hidden;transition:transform .3s ease,box-shadow .3s ease;overflow:hidden}
+        .card:not(.disabled):hover{box-shadow:var(--glow);transform:translateY(-8px) translateZ(0)}
+        .card img{width:100%;height:240px;object-fit:cover;display:block;background:#1a1a1a;transition:filter .3s ease,opacity .3s ease}
+        .card-info{padding:20px;text-align:center}
+        .card-title{margin:0;font-size:1.1rem;font-weight:500;color:#fff;transition:color .3s}
+        .card.disabled img{filter:grayscale(100%);opacity:.4}
+        .card.disabled .card-title{color:#666}
+        .card.disabled a{pointer-events:none;cursor:default}
+        .card-tools{position:absolute;top:10px;right:10px;display:none;gap:6px;z-index:10}
+        .tool-btn{width:35px;height:35px;border:none;border-radius:6px;cursor:pointer;font-size:16px;display:flex;align-items:center;justify-content:center;pointer-events:auto!important}
+        .edit-tool{background:var(--edit);color:#000} .del-tool{background:var(--danger);color:#fff}
+        .modal{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.9);justify-content:center;align-items:center;z-index:2000}
+        .modal-content{background:#1a1f26;padding:30px;border:1px solid var(--primary);width:90%;max-width:420px;border-radius:8px}
+        input{width:100%;padding:12px;margin:10px 0;background:#000;border:1px solid #333;color:var(--primary);box-sizing:border-box;border-radius:4px}
+        .cat-block{margin-top:8px;padding:12px;border:1px solid #333;border-radius:6px;background:#000}
+        .cat-title{margin:0 0 8px;color:rgba(255,255,255,.8);font-size:.95rem;letter-spacing:1px}
+        .cat-options{display:grid;grid-template-columns:1fr 1fr;gap:8px 12px}
+        .cat-options label{display:flex;align-items:center;gap:8px;color:var(--primary);font-size:.95rem;cursor:pointer;user-select:none}
+        .cat-options input[type="checkbox"]{width:16px;height:16px;margin:0;accent-color:var(--primary)}
+        .save-btn{width:100%;padding:12px;background:var(--primary);color:#000;border:none;font-weight:700;cursor:pointer;margin-top:10px;border-radius:4px}
+        .hint{margin-top:10px;font-size:.9rem;color:rgba(255,255,255,.55);line-height:1.4}
+        .hidden-file{display:none}
+        @media (max-width:640px){.page-header{flex-direction:column;align-items:stretch}.page-header h1{text-align:center;white-space:normal}.filter-wrap{justify-content:center}}
+    </style>
+</head>
+<body>
+
+<div class="page-header">
+    <h1>J君優化專案首頁</h1>
+
+    <div class="filter-wrap">
+        <div class="filter-group">
+            <div class="filter-label">分類</div>
+            <div class="select-wrap">
+                <select class="select" id="categoryFilter" onchange="handleFilterChange()">
+                    <option value="全部">全部</option>
+                    <option value="BC">BC</option>
+                    <option value="SBD">SBD</option>
+                    <option value="CGD">CGD</option>
+                    <option value="小工具">小工具</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="filter-group">
+            <div class="filter-label">排序</div>
+            <div class="select-wrap">
+                <select class="select" id="sortMode" onchange="handleSortChange()">
+                    <option value="json">依 JSON 順序</option>
+                    <option value="stroke">依「字首筆畫」</option>
+                </select>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="status" id="statusBox">
+    正在載入內容…（來源：<strong>./data/items.json</strong>）
+</div>
+
+<div class="admin-controls" id="adminControls">
+    <button class="btn" id="editModeBtn" onclick="toggleEditMode()">編輯模式</button>
+    <button class="btn" onclick="openModal()">+ 新增項目</button>
+    <button class="btn secondary" onclick="exportJson()">匯出 items.json</button>
+    <button class="btn secondary" onclick="triggerImport()">匯入 items.json</button>
+    <input class="hidden-file" id="importFile" type="file" accept="application/json,.json" />
+</div>
+
+<div class="grid-container" id="grid"></div>
+
+<div class="modal" id="modal">
+    <div class="modal-content">
+        <h2 id="modalTitle" style="color:var(--primary); margin-top:0;">編輯項目</h2>
+        <input type="text" id="imgInput" placeholder="圖片路徑 (例: image.jpg)">
+        <input type="text" id="titleInput" placeholder="標題">
+        <input type="text" id="urlInput" placeholder="網址 (若無請輸入 #)">
+
+        <input type="number" id="strokeInput" placeholder="字首筆畫數（選填，例如：國=11）" min="1" step="1">
+
+        <div class="cat-block">
+            <p class="cat-title">分類（可複選）</p>
+            <div class="cat-options" id="catOptions"></div>
+            <div class="hint">
+                1) 「字首筆畫排序」需要你填「字首筆畫數」（選填）。<br>
+                2) 若未填筆畫，排序時會排在最後。<br>
+                3) 若勾選「全部」，在篩選 BC / SBD / CGD / 小工具 時也會顯示。
+            </div>
+        </div>
+
+        <button class="save-btn" onclick="handleSave()">確認儲存</button>
+        <button class="save-btn" style="background:#444; color:#fff; margin-top:8px;" onclick="closeModal()">取消</button>
+    </div>
+</div>
+
+<script>
+/**
+ * ✅ 筆畫排序怎麼做？
+ * - 瀏覽器沒有內建「自動算中文字筆畫」。
+ * - 若要 100% 準確，需要一份「字→筆畫」字典資料（會很大）。
+ * - 這版採用：每筆資料加一個 stroke（人工填入「字首筆畫數」）。
+ *   排序：stroke 小→大；同筆畫再用繁中排序當 tie-breaker。
+ */
+
+const CATEGORIES = ["全部","BC","SBD","CGD","小工具"];
+const ITEMS_JSON_PATH = "./data/items.json";
+
+const STORAGE_KEY_DRAFT = "portal_items_draft_v3";
+const STORAGE_KEY_FILTER = "portal_category_filter";
+const STORAGE_KEY_SORT = "portal_sort_mode";
+
+let items = [];
+let isEditMode = false;
+let currentEditIndex = null;
+
+let currentFilter = localStorage.getItem(STORAGE_KEY_FILTER) || "全部";
+document.getElementById("categoryFilter").value = currentFilter;
+
+let sortMode = localStorage.getItem(STORAGE_KEY_SORT) || "json";
+document.getElementById("sortMode").value = sortMode;
+
+const isAdmin = new URLSearchParams(location.search).get("admin") === "1";
+if (isAdmin) document.getElementById("adminControls").style.display = "flex";
+
+function setStatus(html){ document.getElementById("statusBox").innerHTML = html; }
+
+function normalizeItem(item){
+    const cats = Array.isArray(item.cats) ? item.cats.filter(c => CATEGORIES.includes(c)) : [];
+    const stroke = Number.isFinite(Number(item.stroke)) ? Math.max(1, Math.floor(Number(item.stroke))) : null;
+    return {
+        img: item.img || "",
+        title: item.title || "",
+        url: (item.url || "#").trim() || "#",
+        cats,
+        stroke
+    };
+}
+
+function shouldShowItem(item){
+    if (currentFilter === "全部") return true;
+    const cats = Array.isArray(item.cats) ? item.cats : [];
+    return cats.includes(currentFilter) || cats.includes("全部");
+}
+
+function handleFilterChange(){
+    currentFilter = document.getElementById("categoryFilter").value;
+    localStorage.setItem(STORAGE_KEY_FILTER, currentFilter);
+    render();
+}
+
+function handleSortChange(){
+    sortMode = document.getElementById("sortMode").value;
+    localStorage.setItem(STORAGE_KEY_SORT, sortMode);
+    render();
+}
+
+function compareByStroke(a, b){
+    const sa = (a.stroke == null) ? 99999 : a.stroke;
+    const sb = (b.stroke == null) ? 99999 : b.stroke;
+    if (sa !== sb) return sa - sb;
+    return (a.title || "").trim().localeCompare((b.title || "").trim(), "zh-Hant");
+}
+
+function render(){
+    const grid = document.getElementById("grid");
+
+    let list = items
+        .map((item, index) => ({ item: normalizeItem(item), index }))
+        .filter(({ item }) => shouldShowItem(item));
+
+    if (sortMode === "stroke") {
+        list.sort((x, y) => compareByStroke(x.item, y.item));
+    } // json：保持原順序
+
+    grid.innerHTML = list.map(({ item, index }) => {
+        const isDisabled = item.url === "#";
+        return `
+        <div class="card ${isDisabled ? "disabled" : ""}">
+            <div class="card-tools" style="display: ${isAdmin && isEditMode ? "flex" : "none"}">
+                <button class="tool-btn edit-tool" onclick="openModal(${index})">✎</button>
+                <button class="tool-btn del-tool" onclick="deleteItem(${index})">✕</button>
+            </div>
+            <a href="${item.url}" ${isDisabled ? "" : 'target="_blank"'} rel="noopener"
+               onclick="${isAdmin && isEditMode ? "return false;" : ""}">
+                <img src="${item.img}" loading="lazy">
+                <div class="card-info"><p class="card-title">${item.title}</p></div>
+            </a>
+        </div>`;
+    }).join("");
+
+    if (list.length === 0) {
+        grid.innerHTML = `
+            <div style="grid-column: 1 / -1; text-align:center; padding: 40px 12px; color: rgba(255,255,255,0.6);">
+                目前分類「${currentFilter}」沒有任何內容
+            </div>`;
+    }
+}
+
+function toggleEditMode(){
+    if (!isAdmin) return;
+    isEditMode = !isEditMode;
+    document.getElementById("editModeBtn").innerText = isEditMode ? "結束編輯" : "編輯模式";
+    render();
+}
+
+function renderCategoryCheckboxes(selectedCats=[]){
+    const wrap = document.getElementById("catOptions");
+    wrap.innerHTML = CATEGORIES.map(cat => {
+        const checked = selectedCats.includes(cat) ? "checked" : "";
+        return `<label><input type="checkbox" value="${cat}" ${checked}/> ${cat}</label>`;
+    }).join("");
+}
+
+function getSelectedCatsFromModal(){
+    const wrap = document.getElementById("catOptions");
+    return Array.from(wrap.querySelectorAll('input[type="checkbox"]'))
+        .filter(x => x.checked)
+        .map(x => x.value);
+}
+
+function openModal(index=null){
+    if (!isAdmin) return;
+    currentEditIndex = index;
+
+    document.getElementById("modalTitle").innerText = index !== null ? "修改項目" : "新增項目";
+    document.getElementById("imgInput").value = index !== null ? (items[index].img || "") : "";
+    document.getElementById("titleInput").value = index !== null ? (items[index].title || "") : "";
+    document.getElementById("urlInput").value = index !== null ? (items[index].url || "#") : "#";
+    document.getElementById("strokeInput").value = index !== null ? (items[index].stroke ?? "") : "";
+
+    renderCategoryCheckboxes(index !== null ? (items[index].cats || []) : []);
+    document.getElementById("modal").style.display = "flex";
+}
+
+function closeModal(){ document.getElementById("modal").style.display = "none"; }
+
+function saveDraft(){ localStorage.setItem(STORAGE_KEY_DRAFT, JSON.stringify(items)); }
+
+function handleSave(){
+    if (!isAdmin) return;
+
+    const img = document.getElementById("imgInput").value;
+    const title = document.getElementById("titleInput").value;
+    let url = document.getElementById("urlInput").value.trim();
+    const cats = getSelectedCatsFromModal();
+
+    const strokeRaw = document.getElementById("strokeInput").value.trim();
+    const strokeNum = strokeRaw ? Number(strokeRaw) : null;
+    const stroke = (strokeNum && Number.isFinite(strokeNum) && strokeNum > 0) ? Math.floor(strokeNum) : null;
+
+    if (!url) url = "#";
+    if (!img || !title) return alert("請填寫完整內容");
+
+    const next = normalizeItem({ img, title, url, cats, stroke });
+
+    if (currentEditIndex !== null) items[currentEditIndex] = next;
+    else items.push(next);
+
+    saveDraft();
+    setStatus(`已在本機草稿更新（<span class="warn">尚未發布</span>）。請按右上角「匯出 items.json」後，覆蓋 repo 的 <strong>data/items.json</strong> 並 Commit，大家才會看到最新。`);
+    render();
+    closeModal();
+}
+
+function deleteItem(index){
+    if (!isAdmin) return;
+    if (confirm("確定刪除此項？")) {
+        items.splice(index, 1);
+        saveDraft();
+        setStatus(`已在本機草稿刪除（<span class="warn">尚未發布</span>）。請匯出 items.json 並 Commit。`);
+        render();
+    }
+}
+
+function exportJson(){
+    if (!isAdmin) return;
+    const data = JSON.stringify(items.map(normalizeItem), null, 2);
+    const blob = new Blob([data], { type:"application/json;charset=utf-8" });
+    const a = document.createElement("a");
+    a.href = URL.createObjectURL(blob);
+    a.download = "items.json";
+    document.body.appendChild(a);
+    a.click();
+    URL.revokeObjectURL(a.href);
+    a.remove();
+    setStatus(`已匯出 <strong>items.json</strong>（<span class="warn">請記得上傳並 Commit 到 repo 的 data/items.json</span>）。`);
+}
+
+function triggerImport(){
+    if (!isAdmin) return;
+    document.getElementById("importFile").click();
+}
+
+document.getElementById("importFile").addEventListener("change", async (e) => {
+    if (!isAdmin) return;
+    const file = e.target.files && e.target.files[0];
+    if (!file) return;
+
+    try {
+        const text = await file.text();
+        const parsed = JSON.parse(text);
+        if (!Array.isArray(parsed)) throw new Error("JSON 需要是 Array（陣列）");
+        items = parsed.map(normalizeItem);
+        saveDraft();
+        setStatus(`已匯入 <strong>${items.length}</strong> 筆到本機草稿（<span class="warn">尚未發布</span>）。可繼續編輯後再匯出並 Commit。`);
+        render();
+    } catch (err) {
+        alert("匯入失敗：\n" + (err && err.message ? err.message : String(err)));
+    } finally {
+        e.target.value = "";
+    }
+});
+
+async function loadPublished(){
+    const url = `${ITEMS_JSON_PATH}?v=${Date.now()}`;
+    const resp = await fetch(url, { cache:"no-store" });
+    if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
+    const data = await resp.json();
+    if (!Array.isArray(data)) throw new Error("items.json 必須是陣列（Array）");
+    return data.map(normalizeItem);
+}
+
+function loadDraft(){
+    const raw = localStorage.getItem(STORAGE_KEY_DRAFT);
+    if (!raw) return null;
+    try {
+        const parsed = JSON.parse(raw);
+        if (!Array.isArray(parsed)) return null;
+        return parsed.map(normalizeItem);
+    } catch(e) { return null; }
+}
+
+window.useDraft = function(){
+    const draft = loadDraft();
+    if (!draft || draft.length === 0) return;
+    items = draft;
+    setStatus(`已切換到本機草稿：<strong>${items.length}</strong> 筆（<span class="warn">尚未發布</span>）。完成後請匯出 items.json 並 Commit。`);
+    render();
+}
+
+window.clearDraft = function(){
+    if (!confirm("確定清除本機草稿？（不會影響 GitHub 已發布版本）")) return;
+    localStorage.removeItem(STORAGE_KEY_DRAFT);
+    setStatus("已清除本機草稿。");
+}
+
+async function bootstrap(){
+    try {
+        items = await loadPublished();
+
+        if (isAdmin) {
+            const draft = loadDraft();
+            if (draft && draft.length > 0) {
+                setStatus(
+                    `已載入「已發布版本」：<strong>${items.length}</strong> 筆（來源：<strong>${ITEMS_JSON_PATH}</strong>）。` +
+                    `<br>你目前有本機草稿：<strong>${draft.length}</strong> 筆。` +
+                    `　<a href="#" onclick="useDraft(); return false;">改用草稿</a>　/　` +
+                    `<a href="#" onclick="clearDraft(); return false;">清除草稿</a>` +
+                    `<br><span class="warn">發布流程：</span>編輯 → 匯出 items.json → 覆蓋 repo 的 <strong>data/items.json</strong> → Commit`
+                );
+            } else {
+                setStatus(
+                    `已載入「已發布版本」：<strong>${items.length}</strong> 筆（來源：<strong>${ITEMS_JSON_PATH}</strong>）。` +
+                    `<br><span class="warn">發布流程：</span>編輯 → 匯出 items.json → 覆蓋 repo 的 <strong>data/items.json</strong> → Commit`
+                );
+            }
+        } else {
+            setStatus(`已載入 <strong>${items.length}</strong> 筆內容（來源：<strong>${ITEMS_JSON_PATH}</strong>）。`);
+        }
+
+        render();
+    } catch (e) {
+        console.error(e);
+
+        const draft = loadDraft();
+        if (isAdmin && draft && draft.length > 0) {
+            items = draft;
+            setStatus(
+                `找不到已發布的 <strong>${ITEMS_JSON_PATH}</strong>（或讀取失敗）。` +
+                `<br>已載入本機草稿：<strong>${items.length}</strong> 筆（<span class="warn">尚未發布</span>）。` +
+                `<br>請匯出 items.json 並 Commit 到 repo 的 <strong>data/items.json</strong>。`
+            );
+        } else {
+            items = [];
+            setStatus(
+                `找不到已發布的 <strong>${ITEMS_JSON_PATH}</strong>（或讀取失敗）。` +
+                `<br>請確認 repo 內已有 <strong>data/items.json</strong>。` +
+                (isAdmin ? `<br>你也可以先按「匯入 items.json」或直接新增後匯出建立第一份。` : ``)
+            );
+        }
+
+        render();
+    }
+}
+bootstrap();
+</script>
+
+</body>
+</html>
