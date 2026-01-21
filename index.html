@@ -82,8 +82,8 @@
             <div class="filter-label">排序</div>
             <div class="select-wrap">
                 <select class="select" id="sortMode" onchange="handleSortChange()">
-                    <option value="json">依 JSON 順序</option>
                     <option value="stroke">依「字首筆畫」</option>
+                    <option value="json">依 JSON 順序</option>
                 </select>
             </div>
         </div>
@@ -151,7 +151,7 @@ let currentEditIndex = null;
 let currentFilter = localStorage.getItem(STORAGE_KEY_FILTER) || "全部";
 document.getElementById("categoryFilter").value = currentFilter;
 
-let sortMode = localStorage.getItem(STORAGE_KEY_SORT) || "json";
+let sortMode = localStorage.getItem(STORAGE_KEY_SORT) || "stroke";
 document.getElementById("sortMode").value = sortMode;
 
 const isAdmin = new URLSearchParams(location.search).get("admin") === "1";
