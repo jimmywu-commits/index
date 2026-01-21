@@ -2,7 +2,7 @@
   {
     "img": "分潤計畫 EDM-更多精選商品.jpg",
     "title": "分潤計畫 EDM-更多精選商品",
-    "url": "#",
+    "url": "https://jimmywu-commits.github.io/PSPEDM/more.html",
     "cats": [
       "BC"
     ]
@@ -93,6 +93,14 @@
     "url": "https://jimmywu-commits.github.io/TC/",
     "cats": [
       "小工具"
+    ]
+  },
+  {
+    "img": "https://raw.githubusercontent.com/jimmywu-commits/index/refs/heads/main/Selectedindex.png",
+    "title": "分潤計畫 EDM-本月精選活動",
+    "url": "https://jimmywu-commits.github.io/PSPEDM/Selected.html",
+    "cats": [
+      "BC"
     ]
   }
 ]
