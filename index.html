@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>J君優化專案首頁v1</title>
+    <title>J君優化專案首頁v2</title>
     <!-- Share Preview (Open Graph / Twitter Card) -->
     <meta property="og:title" content="J君優化專案首頁">
     <meta property="og:description" content="專案連結與資源彙整">
@@ -50,6 +50,66 @@
         }
 
         .btn:hover { background: var(--primary); color: #000; }
+
+        /* Header aligns with grid right edge */
+        .page-header {
+            width: 100%;
+            max-width: 1400px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+            margin-bottom: 60px;
+        }
+
+        .page-header h1 {
+            letter-spacing: 5px;
+            margin: 0;
+            font-weight: 300;
+            text-shadow: 0 0 20px rgba(255,255,255,0.1);
+            white-space: nowrap;
+        }
+
+        .filter-wrap {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .filter-label {
+            color: rgba(255,255,255,0.75);
+            font-size: 0.95rem;
+            letter-spacing: 1px;
+        }
+
+        .select {
+            appearance: none;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            background: #000;
+            color: var(--primary);
+            border: 1px solid #333;
+            border-radius: 6px;
+            padding: 10px 40px 10px 12px;
+            cursor: pointer;
+            position: relative;
+            font-weight: 600;
+        }
+
+        .select-wrap {
+            position: relative;
+            display: inline-flex;
+            align-items: center;
+        }
+
+        .select-wrap::after {
+            content: "▾";
+            position: absolute;
+            right: 12px;
+            pointer-events: none;
+            color: rgba(0, 242, 255, 0.9);
+            font-size: 14px;
+        }
 
         .grid-container {
             display: grid;
@@ -125,22 +185,89 @@
 
         .modal-content {
             background: #1a1f26; padding: 30px; border: 1px solid var(--primary);
-            width: 90%; max-width: 400px; border-radius: 8px;
+            width: 90%; max-width: 420px; border-radius: 8px;
         }
 
         input { 
             width: 100%; padding: 12px; margin: 10px 0; background: #000; 
             border: 1px solid #333; color: var(--primary); box-sizing: border-box; border-radius: 4px; 
         }
+
+        .cat-block {
+            margin-top: 8px;
+            padding: 12px;
+            border: 1px solid #333;
+            border-radius: 6px;
+            background: #000;
+        }
+
+        .cat-title {
+            margin: 0 0 8px;
+            color: rgba(255,255,255,0.8);
+            font-size: 0.95rem;
+            letter-spacing: 1px;
+        }
+
+        .cat-options {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px 12px;
+        }
+
+        .cat-options label {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--primary);
+            font-size: 0.95rem;
+            cursor: pointer;
+            user-select: none;
+        }
+
+        .cat-options input[type="checkbox"]{
+            width: 16px;
+            height: 16px;
+            margin: 0;
+            accent-color: var(--primary);
+        }
+
         .save-btn { 
             width: 100%; padding: 12px; background: var(--primary); color: #000; 
             border: none; font-weight: bold; cursor: pointer; margin-top: 10px; border-radius: 4px; 
+        }
+
+        .hint {
+            margin-top: 10px;
+            font-size: 0.9rem;
+            color: rgba(255,255,255,0.55);
+            line-height: 1.4;
+        }
+
+        @media (max-width: 640px) {
+            .page-header { flex-direction: column; align-items: stretch; }
+            .page-header h1 { text-align: center; white-space: normal; }
+            .filter-wrap { justify-content: center; }
         }
     </style>
 </head>
 <body>
 
-    <h1 style="letter-spacing: 5px; margin-bottom: 60px; font-weight: 300; text-shadow: 0 0 20px rgba(255,255,255,0.1);">J君優化專案首頁</h1>
+    <div class="page-header">
+        <h1>J君優化專案首頁</h1>
+
+        <div class="filter-wrap">
+            <div class="filter-label">分類</div>
+            <div class="select-wrap">
+                <select class="select" id="categoryFilter" onchange="handleFilterChange()">
+                    <option value="全部">全部</option>
+                    <option value="BC">BC</option>
+                    <option value="SBD">SBD</option>
+                    <option value="CGD">CGD</option>
+                    <option value="小工具">小工具</option>
+                </select>
+            </div>
+        </div>
+    </div>
 
     <div class="admin-controls">
         <button class="btn" id="editModeBtn" onclick="toggleEditMode()">編輯模式</button>
@@ -155,30 +282,98 @@
             <input type="text" id="imgInput" placeholder="圖片路徑 (例: image.jpg)">
             <input type="text" id="titleInput" placeholder="標題">
             <input type="text" id="urlInput" placeholder="網址 (若無請輸入 #)">
+
+            <!-- 新增：分類可複選 -->
+            <div class="cat-block">
+                <p class="cat-title">分類（可複選）</p>
+                <div class="cat-options" id="catOptions"></div>
+                <div class="hint">提示：若勾選「全部」，在篩選 BC / SBD / CGD / 小工具 時也會顯示。</div>
+            </div>
+
             <button class="save-btn" onclick="handleSave()">確認儲存</button>
             <button class="save-btn" style="background:#444; color:#fff; margin-top:8px;" onclick="closeModal()">取消</button>
         </div>
     </div>
 
     <script>
+        const CATEGORIES = ["全部","BC","SBD","CGD","小工具"];
+
         const defaultItems = [
-            { img: "分潤計畫 EDM-更多精選商品.jpg", title: "分潤計畫 EDM-更多精選商品", url: "#" },
-            { img: "信用卡回饋方案.jpg", title: "信用卡回饋方案", url: "#" },
-            { img: "export.jpg", title: "大獎機台展示", url: "#" },
-            { img: "SBA編輯器.png", title: "SBA編輯器系統", url: "#" },
-            { img: "edm_734px_2026-01-20.jpg", title: "創意文案高轉化課程", url: "#" },
-            { img: "國泰世華銀行_Banner (2).jpg", title: "國泰世華銀行 Banner", url: "#" },
-            { img: "8月商城活動日曆（1200x1863｜第一列95折三條｜字體指定版） (1).jpg", title: "1月商城活動日曆", url: "#" },
-            { img: "國泰蝦皮聯名卡MSBN.jpg", title: "國泰蝦皮聯名卡回饋", url: "#" }
+            { img: "分潤計畫 EDM-更多精選商品.jpg", title: "分潤計畫 EDM-更多精選商品", url: "#", cats: [] },
+            { img: "信用卡回饋方案.jpg", title: "信用卡回饋方案", url: "#", cats: [] },
+            { img: "export.jpg", title: "大獎機台展示", url: "#", cats: [] },
+            { img: "SBA編輯器.png", title: "SBA編輯器系統", url: "#", cats: [] },
+            { img: "edm_734px_2026-01-20.jpg", title: "創意文案高轉化課程", url: "#", cats: [] },
+            { img: "國泰世華銀行_Banner (2).jpg", title: "國泰世華銀行 Banner", url: "#", cats: [] },
+            { img: "8月商城活動日曆（1200x1863｜第一列95折三條｜字體指定版） (1).jpg", title: "1月商城活動日曆", url: "#", cats: [] },
+            { img: "國泰蝦皮聯名卡MSBN.jpg", title: "國泰蝦皮聯名卡回饋", url: "#", cats: [] }
         ];
 
-        let items = JSON.parse(localStorage.getItem('portal_clean_v4')) || defaultItems;
+        // 版本升級：v5（含分類）
+        const STORAGE_KEY = 'portal_clean_v5';
+
+        // 讀取舊版資料（若存在 portal_clean_v4，會自動轉換到 v5）
+        function loadItems() {
+            const v5 = localStorage.getItem(STORAGE_KEY);
+            if (v5) {
+                try {
+                    const parsed = JSON.parse(v5);
+                    return (Array.isArray(parsed) ? parsed : []).map(normalizeItem);
+                } catch(e) {}
+            }
+
+            const v4 = localStorage.getItem('portal_clean_v4');
+            if (v4) {
+                try {
+                    const parsed = JSON.parse(v4);
+                    const converted = (Array.isArray(parsed) ? parsed : []).map(it => normalizeItem({
+                        img: it.img,
+                        title: it.title,
+                        url: it.url,
+                        cats: it.cats || []
+                    }));
+                    localStorage.setItem(STORAGE_KEY, JSON.stringify(converted));
+                    return converted;
+                } catch(e) {}
+            }
+
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(defaultItems));
+            return defaultItems.map(normalizeItem);
+        }
+
+        function normalizeItem(item) {
+            const cats = Array.isArray(item.cats) ? item.cats.filter(c => CATEGORIES.includes(c)) : [];
+            return {
+                img: item.img || "",
+                title: item.title || "",
+                url: (item.url || "#").trim() || "#",
+                cats
+            };
+        }
+
+        let items = loadItems();
         let isEditMode = false;
         let currentEditIndex = null;
+        let currentFilter = localStorage.getItem('portal_category_filter') || "全部";
+
+        // 初始化篩選器
+        document.getElementById('categoryFilter').value = currentFilter;
+
+        function shouldShowItem(item) {
+            if (currentFilter === "全部") return true;
+            const cats = Array.isArray(item.cats) ? item.cats : [];
+            // 若項目有勾選「全部」，視為任一分類都會顯示
+            return cats.includes(currentFilter) || cats.includes("全部");
+        }
 
         function render() {
             const grid = document.getElementById('grid');
-            grid.innerHTML = items.map((item, index) => {
+
+            const visible = items
+                .map((item, index) => ({ item, index }))
+                .filter(({ item }) => shouldShowItem(item));
+
+            grid.innerHTML = visible.map(({ item, index }) => {
                 const isDisabled = item.url === "#";
                 return `
                 <div class="card ${isDisabled ? 'disabled' : ''}">
@@ -193,6 +388,21 @@
                 </div>
                 `;
             }).join('');
+
+            if (visible.length === 0) {
+                grid.innerHTML = `
+                    <div style="grid-column: 1 / -1; text-align:center; padding: 40px 12px; color: rgba(255,255,255,0.6);">
+                        目前分類「${currentFilter}」沒有任何內容
+                    </div>
+                `;
+            }
+        }
+
+        function handleFilterChange() {
+            const sel = document.getElementById('categoryFilter');
+            currentFilter = sel.value;
+            localStorage.setItem('portal_category_filter', currentFilter);
+            render();
         }
 
         function toggleEditMode() {
@@ -201,12 +411,35 @@
             render();
         }
 
+        function renderCategoryCheckboxes(selectedCats = []) {
+            const wrap = document.getElementById('catOptions');
+            wrap.innerHTML = CATEGORIES.map(cat => {
+                const checked = selectedCats.includes(cat) ? 'checked' : '';
+                return `
+                    <label>
+                        <input type="checkbox" value="${cat}" ${checked} />
+                        ${cat}
+                    </label>
+                `;
+            }).join('');
+        }
+
+        function getSelectedCatsFromModal() {
+            const wrap = document.getElementById('catOptions');
+            const checks = Array.from(wrap.querySelectorAll('input[type="checkbox"]'));
+            return checks.filter(c => c.checked).map(c => c.value);
+        }
+
         function openModal(index = null) {
             currentEditIndex = index;
             document.getElementById('modalTitle').innerText = index !== null ? "修改項目" : "新增項目";
-            document.getElementById('imgInput').value = index !== null ? items[index].img : "";
-            document.getElementById('titleInput').value = index !== null ? items[index].title : "";
-            document.getElementById('urlInput').value = index !== null ? items[index].url : "#";
+            document.getElementById('imgInput').value = index !== null ? (items[index].img || "") : "";
+            document.getElementById('titleInput').value = index !== null ? (items[index].title || "") : "";
+            document.getElementById('urlInput').value = index !== null ? (items[index].url || "#") : "#";
+
+            const selectedCats = index !== null ? (items[index].cats || []) : [];
+            renderCategoryCheckboxes(selectedCats);
+
             document.getElementById('modal').style.display = 'flex';
         }
 
@@ -216,14 +449,17 @@
             const img = document.getElementById('imgInput').value;
             const title = document.getElementById('titleInput').value;
             let url = document.getElementById('urlInput').value.trim();
-            
+            const cats = getSelectedCatsFromModal();
+
             if (!url) url = "#";
             if (!img || !title) return alert("請填寫完整內容");
 
-            if (currentEditIndex !== null) items[currentEditIndex] = { img, title, url };
-            else items.push({ img, title, url });
+            const next = normalizeItem({ img, title, url, cats });
 
-            localStorage.setItem('portal_clean_v4', JSON.stringify(items));
+            if (currentEditIndex !== null) items[currentEditIndex] = next;
+            else items.push(next);
+
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(items));
             render();
             closeModal();
         }
@@ -231,7 +467,7 @@
         function deleteItem(index) {
             if(confirm('確定刪除此項？')) {
                 items.splice(index, 1);
-                localStorage.setItem('portal_clean_v4', JSON.stringify(items));
+                localStorage.setItem(STORAGE_KEY, JSON.stringify(items));
                 render();
             }
         }
