@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>J君優化專案首頁 v3（本機/ GitHub 同步測試版）</title>
+
+    <meta property="og:title" content="J君優化專案首頁">
+    <meta property="og:description" content="專案連結與資源彙整">
+    <meta property="og:type" content="website">
+    <meta property="og:image" content="https://raw.githubusercontent.com/jimmywu-commits/index/refs/heads/main/jimmypic.png">
+    <meta name="twitter:card" content="summary_large_image">
+    <link rel="icon" href="https://raw.githubusercontent.com/jimmywu-commits/index/refs/heads/main/jimmypic.png">
+
+    <style>
+        :root {
+            --primary:#00f2ff;--edit:#ffca28;--danger:#ff4d4d;
+            --bg:#0a0e17;--card-bg:#11151c;--glow:0 10px 30px rgba(0,242,255,.25)
+        }
+        body{
+            background:var(--bg);color:#fff;font-family:'PingFang TC','Microsoft JhengHei',sans-serif;
+            margin:0;padding:80px 20px;display:flex;flex-direction:column;align-items:center
+        }
+        a{text-decoration:none!important;color:inherit}
+        .page-header{width:100%;max-width:1400px;display:flex;justify-content:space-between;gap:16px;margin-bottom:24px}
+        h1{letter-spacing:5px;font-weight:300;margin:0}
+        .filter-wrap{display:flex;gap:10px;align-items:center}
+        .select{background:#000;color:var(--primary);border:1px solid #333;border-radius:6px;padding:10px 36px 10px 12px}
+        .grid-container{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:30px;width:100%;max-width:1400px}
+        .card{background:var(--card-bg);border-radius:12px;overflow:hidden;transition:.3s}
+        .card:not(.disabled):hover{box-shadow:var(--glow);transform:translateY(-6px)}
+        .card img{width:100%;height:240px;object-fit:cover}
+        .card-info{padding:20px;text-align:center}
+        .card.disabled img{filter:grayscale(1);opacity:.4}
+        .card.disabled a{pointer-events:none}
+        .status{max-width:1400px;width:100%;margin-bottom:16px;padding:12px;border:1px solid rgba(0,242,255,.25);border-radius:8px}
+    </style>
+</head>
+<body>
+
+<div class="page-header">
+    <h1>J君優化專案首頁</h1>
+    <div class="filter-wrap">
+        <span>分類</span>
+        <select class="select" id="categoryFilter">
+            <option value="全部">全部</option>
+            <option value="BC">BC</option>
+            <option value="SBD">SBD</option>
+            <option value="CGD">CGD</option>
+            <option value="小工具">小工具</option>
+        </select>
+    </div>
+</div>
+
+<div class="status" id="statusBox">載入中…（./data/items.json）</div>
+<div class="grid-container" id="grid"></div>
+
+<script>
+const CATEGORIES=["全部","BC","SBD","CGD","小工具"];
+const ITEMS_JSON_PATH="./data/items.json";
+let items=[];
+let currentFilter="全部";
+
+document.getElementById("categoryFilter").onchange=e=>{
+    currentFilter=e.target.value;render();
+};
+
+function normalize(i){
+    return {
+        img:i.img||"",title:i.title||"",url:(i.url||"#"),
+        cats:Array.isArray(i.cats)?i.cats:[]
+    };
+}
+function visible(i){
+    if(currentFilter==="全部")return true;
+    return i.cats.includes(currentFilter)||i.cats.includes("全部");
+}
+function render(){
+    const g=document.getElementById("grid");
+    const v=items.filter(visible);
+    g.innerHTML=v.map(i=>`
+        <div class="card ${i.url==="#"?"disabled":""}">
+            <a href="${i.url}" ${i.url==="#"?"":"target=_blank"}>
+                <img src="${i.img}">
+                <div class="card-info">${i.title}</div>
+            </a>
+        </div>`).join("");
+}
+fetch(ITEMS_JSON_PATH+"?v="+Date.now())
+.then(r=>r.json())
+.then(d=>{
+    items=d.map(normalize);
+    document.getElementById("statusBox").innerHTML=
+        `已載入 <strong>${items.length}</strong> 筆（來源：${ITEMS_JSON_PATH}）`;
+    render();
+})
+.catch(e=>{
+    document.getElementById("statusBox").innerHTML=
+        "❌ 無法讀取 ./data/items.json（本機測試請用簡易伺服器）";
+});
+</script>
+</body>
+</html>
