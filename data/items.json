@@ -5,7 +5,8 @@
     "url": "https://jimmywu-commits.github.io/PSPEDM/more.html",
     "cats": [
       "BC"
-    ]
+    ],
+    "stroke": 1
   },
   {
     "img": "https://raw.githubusercontent.com/jimmywu-commits/index/refs/heads/main/%E4%BF%A1%E7%94%A8%E5%8D%A1%E5%9B%9E%E9%A5%8B%E6%96%B9%E6%A1%88.jpg",
@@ -13,7 +14,8 @@
     "url": "https://jimmywu-commits.github.io/bank/feedback.html",
     "cats": [
       "BC"
-    ]
+    ],
+    "stroke": 1
   },
   {
     "img": "https://raw.githubusercontent.com/jimmywu-commits/index/refs/heads/main/%E8%9D%A6%E7%9A%AE%E5%A4%BE%E5%A4%BE%E6%A8%82.png",
@@ -21,7 +23,8 @@
     "url": "https://jimmywu-commits.github.io/game/",
     "cats": [
       "BC"
-    ]
+    ],
+    "stroke": 1
   },
   {
     "img": "SBA編輯器.png",
@@ -29,7 +32,8 @@
     "url": "#",
     "cats": [
       "小工具"
-    ]
+    ],
+    "stroke": 1
   },
   {
     "img": "https://raw.githubusercontent.com/jimmywu-commits/index/refs/heads/main/%E8%9D%A6%E5%A4%A7.jpg",
@@ -37,15 +41,17 @@
     "url": "#",
     "cats": [
       "SBD"
-    ]
+    ],
+    "stroke": 1
   },
   {
     "img": "https://raw.githubusercontent.com/jimmywu-commits/index/refs/heads/main/%E5%9C%8B%E6%B3%B0%E4%B8%96%E8%8F%AF%E9%8A%80%E8%A1%8CBanner.jpg",
-    "title": "國泰世華銀行 Banner",
+    "title": "銀行刷卡回饋 Banner",
     "url": "https://jimmywu-commits.github.io/bank/",
     "cats": [
       "BC"
-    ]
+    ],
+    "stroke": 1
   },
   {
     "img": "https://raw.githubusercontent.com/jimmywu-commits/index/refs/heads/main/%E5%95%86%E5%9F%8E%E6%B4%BB%E5%8B%95%E6%97%A5%E6%9B%86.jpg",
@@ -53,7 +59,8 @@
     "url": "https://jimmywu-commits.github.io/calendar/",
     "cats": [
       "CGD"
-    ]
+    ],
+    "stroke": 1
   },
   {
     "img": "國泰蝦皮聯名卡MSBN.jpg",
@@ -61,7 +68,8 @@
     "url": "#",
     "cats": [
       "BC"
-    ]
+    ],
+    "stroke": 1
   },
   {
     "img": "https://raw.githubusercontent.com/jimmywu-commits/index/refs/heads/main/shopeeliveindex.png",
@@ -69,7 +77,8 @@
     "url": "#",
     "cats": [
       "BC"
-    ]
+    ],
+    "stroke": 1
   },
   {
     "img": "https://raw.githubusercontent.com/jimmywu-commits/shopeelive/refs/heads/main/colortest.png",
@@ -77,7 +86,8 @@
     "url": "https://jimmywu-commits.github.io/shopeelive/color.html",
     "cats": [
       "小工具"
-    ]
+    ],
+    "stroke": 1
   },
   {
     "img": "https://raw.githubusercontent.com/jimmywu-commits/times/refs/heads/main/mmss.png",
@@ -85,7 +95,8 @@
     "url": "https://jimmywu-commits.github.io/times/",
     "cats": [
       "小工具"
-    ]
+    ],
+    "stroke": 1
   },
   {
     "img": "https://raw.githubusercontent.com/jimmywu-commits/TC/refs/heads/main/TC%20INDEX%20PIC.png",
@@ -93,7 +104,8 @@
     "url": "https://jimmywu-commits.github.io/TC/",
     "cats": [
       "小工具"
-    ]
+    ],
+    "stroke": 1
   },
   {
     "img": "https://raw.githubusercontent.com/jimmywu-commits/index/refs/heads/main/Selectedindex.png",
@@ -101,6 +113,7 @@
     "url": "https://jimmywu-commits.github.io/PSPEDM/Selected.html",
     "cats": [
       "BC"
-    ]
+    ],
+    "stroke": 1
   }
 ]
