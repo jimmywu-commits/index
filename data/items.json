@@ -115,5 +115,17 @@
       "BC"
     ],
     "stroke": 1
+  },
+  {
+    "img": "https://github.com/jimmywu-commits/index/blob/main/Gantt.png?raw=true",
+    "title": "專案甘特圖",
+    "url": "#",
+    "cats": [
+      "BC",
+      "SBD",
+      "CGD",
+      "小工具"
+    ],
+    "stroke": 1
   }
 ]
