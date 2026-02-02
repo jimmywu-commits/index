@@ -130,8 +130,17 @@
   },
   {
     "img": "https://raw.githubusercontent.com/jimmywu-commits/index/refs/heads/main/Product-icon.png",
-    "title": "蝦拼集點換好禮",
+    "title": "蝦拼集點換好禮ICON",
     "url": "https://jimmywu-commits.github.io/gathering-point/product-icon.html",
+    "cats": [
+      "BC"
+    ],
+    "stroke": 1
+  },
+  {
+    "img": "https://github.com/jimmywu-commits/index/blob/main/Leaderboard.jpg?raw=true",
+    "title": "蝦拼集點換好禮BN",
+    "url": "#",
     "cats": [
       "BC"
     ],
