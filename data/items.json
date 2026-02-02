@@ -127,5 +127,14 @@
       "小工具"
     ],
     "stroke": 1
+  },
+  {
+    "img": "https://raw.githubusercontent.com/jimmywu-commits/index/refs/heads/main/Product-icon.png",
+    "title": "蝦拼集點換好禮",
+    "url": "https://jimmywu-commits.github.io/gathering-point/product-icon.html",
+    "cats": [
+      "BC"
+    ],
+    "stroke": 1
   }
 ]
