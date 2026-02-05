@@ -147,9 +147,18 @@
     "stroke": 1
   },
   {
-    "img": "https://raw.githubusercontent.com/jimmywu-commits/index/refs/heads/main/gathering-point-msbn.png",
-    "title": "蝦拼集點換好禮MSBN",
-    "url": "https://jimmywu-commits.github.io/gathering-point/msbn.html",
+    "img": "https://raw.githubusercontent.com/jimmywu-commits/index/refs/heads/main/gathering-point-msbn1.png",
+    "title": "蝦拼集點換好禮MSBN 01",
+    "url": "https://jimmywu-commits.github.io/gathering-point/msbn1.html",
+    "cats": [
+      "BC"
+    ],
+    "stroke": 1
+  },
+  {
+    "img": "https://raw.githubusercontent.com/jimmywu-commits/index/refs/heads/main/gathering-point-msbn2.png",
+    "title": "蝦拼集點換好禮MSBN 02",
+    "url": "https://jimmywu-commits.github.io/gathering-point/msbn2.html",
     "cats": [
       "BC"
     ],
