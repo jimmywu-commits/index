@@ -29,7 +29,7 @@
   {
     "img": "SBA編輯器.png",
     "title": "SBA編輯器系統",
-    "url": "#",
+    "url": "https://jimmywu-commits.github.io/rd/sba.html",
     "cats": [
       "小工具"
     ],
@@ -166,7 +166,7 @@
   },
   {
     "img": "https://raw.githubusercontent.com/jimmywu-commits/index/refs/heads/main/ddcardindex.png",
-    "title": "DDCard編輯器",
+    "title": "DDCard編輯系統",
     "url": "https://jimmywu-commits.github.io/rd/ddcard.html",
     "cats": [
       "全部"
@@ -175,7 +175,7 @@
   },
   {
     "img": "https://github.com/jimmywu-commits/index/blob/main/hbnindex.png?raw=true",
-    "title": "HBN編輯器",
+    "title": "HBN編輯系統",
     "url": "https://jimmywu-commits.github.io/rd/hbn.html",
     "cats": [],
     "stroke": 1
