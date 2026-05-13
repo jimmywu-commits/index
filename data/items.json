@@ -188,5 +188,14 @@
       "BC"
     ],
     "stroke": 1
+  },
+  {
+    "img": "floating.png",
+    "title": "floating ICON",
+    "url": "https://jimmywu-commits.github.io/rd/floating.html",
+    "cats": [
+      "全部"
+    ],
+    "stroke": 1
   }
 ]
