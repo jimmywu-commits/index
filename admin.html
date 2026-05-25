@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Banner Tool 後台管理</title>
+<style>
+
+:root{--bg:#f5f7fc;--ink:#10203f;--muted:#5f6b87;--line:#dfe6f3;--navy:#10264d}
+*{box-sizing:border-box}
+body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Noto Sans TC",Arial,sans-serif;background:radial-gradient(circle at 20% 0%,#eef6ff 0,#f5f7fc 35%,#f2f4f9 100%);color:var(--ink)}
+.wrap{max-width:1480px;margin:0 auto;padding:28px 30px 38px}
+.header{display:flex;justify-content:space-between;align-items:flex-start;gap:24px;margin-bottom:28px}
+.brand{display:flex;align-items:center;gap:18px}
+.logo{width:54px;height:54px;border-radius:14px;background:linear-gradient(135deg,#2563eb,#60a5fa);display:grid;place-items:center;color:white;font-size:28px;box-shadow:0 10px 24px rgba(37,99,235,.22)}
+h1{margin:0;font-size:34px;line-height:1.1;letter-spacing:-.04em}
+.subtitle{margin-top:8px;color:var(--muted);font-size:16px}
+button,.btn{border:0;border-radius:12px;background:linear-gradient(135deg,#071b3c,#183765);color:#fff;font-weight:900;padding:13px 18px;cursor:pointer;text-decoration:none;display:inline-flex;align-items:center;justify-content:center;gap:8px}
+.btn-light{background:#fff;color:#16305e;border:1px solid var(--line);box-shadow:0 5px 14px rgba(15,23,42,.06)}
+.control,input,select,textarea{border:1px solid var(--line);border-radius:13px;background:#fff;padding:0 16px;font-size:15px;color:#17213d;box-shadow:0 6px 16px rgba(15,23,42,.04)}
+input,select{height:52px} textarea{width:100%;min-height:86px;padding:13px 14px;resize:vertical}
+.blue{background:linear-gradient(135deg,#1d5fe9,#55b6ff)}
+.purple{background:linear-gradient(135deg,#6d28d9,#b66cff)}
+.green{background:linear-gradient(135deg,#16a34a,#69ddb1)}
+.orange{background:linear-gradient(135deg,#fb8500,#ffbc5f)}
+.pink{background:linear-gradient(135deg,#ec4899,#f9a8d4)}
+.teal{background:linear-gradient(135deg,#0891b2,#67e8f9)}
+.si-blue{background:#eaf2ff;color:#2563eb}.si-purple{background:#f1e9ff;color:#7c3aed}.si-green{background:#e9fbf0;color:#16a34a}.si-orange{background:#fff4df;color:#f59e0b}.si-pink{background:#fdf2f8;color:#db2777}.si-teal{background:#ecfeff;color:#0891b2}
+@media (max-width:760px){.wrap{padding:20px}.header{flex-direction:column}h1{font-size:28px}}
+
+.layout{display:grid;grid-template-columns:430px 1fr;gap:22px}
+.panel{background:#fff;border:1px solid var(--line);border-radius:20px;padding:22px;box-shadow:0 8px 22px rgba(15,23,42,.05)}
+h2{margin:0 0 16px} label{display:block;margin:13px 0 7px;font-weight:850} .row{display:grid;grid-template-columns:1fr 1fr;gap:12px} .hr{height:1px;background:var(--line);margin:22px 0}
+.actions{display:flex;gap:10px;flex-wrap:wrap;margin:14px 0}.secondary{background:#eef2ff;color:#1d4ed8}.danger{background:#fee2e2;color:#b91c1c}.small{padding:9px 12px;border-radius:10px;font-size:13px}
+.group{border-radius:18px;padding:20px;color:#fff;margin-bottom:16px;box-shadow:0 12px 28px rgba(15,23,42,.1)}.group h3{margin:0 0 8px;font-size:24px}.group p{margin:0 0 14px;opacity:.95}
+.group-head{display:flex;justify-content:space-between;gap:12px;align-items:flex-start}.mini-actions{display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end}
+.size{background:rgba(255,255,255,.18);border:1px solid rgba(255,255,255,.22);border-radius:13px;padding:12px 14px;margin-top:10px;display:grid;grid-template-columns:1fr auto auto;gap:12px;align-items:center}
+.size strong{display:block}.jsonbox{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;background:#0b1220;color:#dbeafe;border-radius:16px;padding:16px;white-space:pre;overflow:auto;max-height:360px;font-size:13px}
+.hint{background:#fff7e6;color:#935f00;border:1px solid #fde3a8;border-radius:12px;padding:13px 15px;margin-bottom:16px;font-weight:750;line-height:1.6}
+.file-input{height:auto;padding:12px}
+@media(max-width:980px){.layout{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header class="header">
+  <div class="brand"><div class="logo">⚙</div><div><h1>Banner Tool 後台管理</h1><div class="subtitle">維護版位、尺寸、顏色主題與 GitHub Tool URL，並匯出 banner-tools-data.json。</div></div></div>
+  <a class="btn btn-light" href="index.html">回前台</a>
+</header>
+
+<div class="hint">存檔會先存在瀏覽器 localStorage；要讓前台更新，請按「匯出 JSON」，下載後覆蓋同層的 <b>banner-tools-data.json</b>。</div>
+
+<div class="layout">
+<section class="panel">
+  <h2 id="placementFormTitle">新增 / 編輯版位</h2>
+  <input type="hidden" id="placementId">
+  <label>版位名稱</label><input id="pName" placeholder="例如：Brand max BN">
+  <div class="row"><div><label>主題色</label><select id="pTheme"><option value="blue">blue 藍色</option><option value="purple">purple 紫色</option><option value="green">green 綠色</option><option value="orange">orange 橘色</option><option value="pink">pink 粉色</option><option value="teal">teal 青色</option></select></div><div><label>排序</label><input id="pOrder" type="number" min="1" value="1"></div></div>
+  <div class="row"><div><label>圖示</label><input id="pIcon" placeholder="★"></div><div><label>標籤</label><input id="pBadge" placeholder="熱門"></div></div>
+  <label>版位說明</label><textarea id="pDesc" placeholder="輸入給一般使用者看的說明"></textarea>
+  <label>版位預設工具 URL</label><input id="pUrl" placeholder="https://github.com/...">
+  <label>狀態</label><select id="pStatus"><option value="active">啟用</option><option value="inactive">停用</option></select>
+  <div class="actions"><button id="savePlacement">儲存版位</button><button class="secondary" id="resetPlacement">清空</button></div>
+
+  <div class="hr"></div>
+  <h2 id="sizeFormTitle">新增 / 編輯尺寸</h2>
+  <input type="hidden" id="sizeId">
+  <label>所屬版位</label><select id="sPlacement"></select>
+  <label>尺寸名稱</label><input id="sName" placeholder="例如：Search Banner (App)">
+  <div class="row"><div><label>寬度</label><input id="sWidth" type="number" placeholder="1200"></div><div><label>高度</label><input id="sHeight" type="number" placeholder="400"></div></div>
+  <div class="row"><div><label>平台</label><select id="sPlatform"><option>All</option><option>App</option><option>PC</option></select></div><div><label>排序</label><input id="sOrder" type="number" min="1" value="1"></div></div>
+  <div class="row"><div><label>圖示</label><input id="sIcon" placeholder="▭"></div><div><label>尺寸色系</label><select id="sColor"><option value="si-blue">藍色</option><option value="si-purple">紫色</option><option value="si-green">綠色</option><option value="si-orange">橘色</option><option value="si-pink">粉色</option><option value="si-teal">青色</option></select></div></div>
+  <label>GitHub Tool URL</label><input id="sUrl" placeholder="https://github.com/...">
+  <label>狀態</label><select id="sStatus"><option value="active">啟用</option><option value="inactive">停用</option></select>
+  <div class="actions"><button id="saveSize">儲存尺寸</button><button class="secondary" id="resetSize">清空</button></div>
+</section>
+
+<section class="panel">
+  <h2>資料管理</h2>
+  <div class="actions">
+    <button id="exportJson">匯出 banner-tools-data.json</button>
+    <button class="secondary" id="copyJson">複製 JSON</button>
+    <button class="danger" id="resetAll">還原預設資料</button>
+  </div>
+  <input class="file-input" type="file" id="importFile" accept=".json,application/json">
+  <div class="hr"></div>
+  <h2>目前版位結構</h2>
+  <div id="list"></div>
+  <h2>JSON 預覽</h2>
+  <pre id="jsonPreview" class="jsonbox"></pre>
+</section>
+</div>
+</div>
+
+<script>
+const DEFAULT_DATA = {
+  "version": "1.0.0",
+  "updatedAt": "2026-05-25",
+  "placements": [
+    {
+      "id": "brand-max-bn",
+      "name": "Brand max BN",
+      "theme": "blue",
+      "icon": "★",
+      "badge": "熱門",
+      "description": "品牌最大曝光版位，適合大型活動與主視覺呈現。",
+      "toolUrl": "https://github.com/",
+      "order": 1,
+      "status": "active",
+      "sizes": [
+        {
+          "id": "dd-card-bn",
+          "name": "DD Card BN",
+          "width": 531,
+          "height": 792,
+          "platform": "All",
+          "icon": "▯",
+          "color": "si-blue",
+          "toolUrl": "https://github.com/",
+          "order": 1,
+          "status": "active"
+        },
+        {
+          "id": "c2c-hbn",
+          "name": "C2C HBN",
+          "width": 1200,
+          "height": 360,
+          "platform": "All",
+          "icon": "▭",
+          "color": "si-purple",
+          "toolUrl": "https://github.com/",
+          "order": 2,
+          "status": "active"
+        }
+      ]
+    },
+    {
+      "id": "sba",
+      "name": "SBA",
+      "theme": "purple",
+      "icon": "▣",
+      "badge": "熱門",
+      "description": "SBA 活動版位，適用於多種促銷與曝光需求。",
+      "toolUrl": "https://github.com/",
+      "order": 2,
+      "status": "active",
+      "sizes": [
+        {
+          "id": "sba-banner",
+          "name": "SBA Banner",
+          "width": 1200,
+          "height": 360,
+          "platform": "All",
+          "icon": "▭",
+          "color": "si-purple",
+          "toolUrl": "https://github.com/",
+          "order": 1,
+          "status": "active"
+        }
+      ]
+    },
+    {
+      "id": "jbp",
+      "name": "JBP單店資交",
+      "theme": "green",
+      "icon": "▤",
+      "badge": "最新",
+      "description": "JBP 單店資交版位，提升單店曝光度。",
+      "toolUrl": "https://github.com/",
+      "order": 3,
+      "status": "active",
+      "sizes": [
+        {
+          "id": "jbp-banner",
+          "name": "JBP Banner",
+          "width": 1200,
+          "height": 360,
+          "platform": "All",
+          "icon": "▭",
+          "color": "si-green",
+          "toolUrl": "https://github.com/",
+          "order": 1,
+          "status": "active"
+        }
+      ]
+    },
+    {
+      "id": "home-bn",
+      "name": "首頁BN",
+      "theme": "orange",
+      "icon": "⌂",
+      "badge": "熱門",
+      "description": "首頁主視覺 Banner，適合品牌與大型活動曝光。",
+      "toolUrl": "https://github.com/",
+      "order": 4,
+      "status": "active",
+      "sizes": [
+        {
+          "id": "search-banner-app",
+          "name": "Search Banner (App)",
+          "width": 1200,
+          "height": 400,
+          "platform": "App",
+          "icon": "▯",
+          "color": "si-green",
+          "toolUrl": "https://github.com/",
+          "order": 1,
+          "status": "active"
+        },
+        {
+          "id": "search-banner-pc",
+          "name": "Search Banner (PC)",
+          "width": 1200,
+          "height": 200,
+          "platform": "PC",
+          "icon": "▭",
+          "color": "si-orange",
+          "toolUrl": "https://github.com/",
+          "order": 2,
+          "status": "active"
+        }
+      ]
+    }
+  ]
+};
+const STORAGE_KEY='bannerToolsDataV1';
+let data = loadLocal();
+
+function slugify(str){return String(str||'item').trim().toLowerCase().replace(/[\s_]+/g,'-').replace(/[^a-z0-9\-\u4e00-\u9fa5]/g,'').replace(/-+/g,'-') || ('item-'+Date.now())}
+function loadLocal(){try{return JSON.parse(localStorage.getItem(STORAGE_KEY)) || structuredClone(DEFAULT_DATA)}catch(e){return structuredClone(DEFAULT_DATA)}}
+function saveLocal(){data.updatedAt=new Date().toISOString().slice(0,10);localStorage.setItem(STORAGE_KEY,JSON.stringify(data));render()}
+function sortByOrder(a,b){return (Number(a.order)||999)-(Number(b.order)||999)}
+function esc(v){return String(v ?? '').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]))}
+function download(filename, content, type='application/json'){const blob=new Blob([content],{type});const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=filename;a.click();setTimeout(()=>URL.revokeObjectURL(a.href),500)}
+
+function updatePlacementSelect(){
+  const sel=document.getElementById('sPlacement');
+  sel.innerHTML='';
+  [...data.placements].sort(sortByOrder).forEach(p=>{const o=document.createElement('option');o.value=p.id;o.textContent=p.name;sel.appendChild(o)});
+}
+
+function render(){
+  updatePlacementSelect();
+  const list=document.getElementById('list');
+  list.innerHTML=[...data.placements].sort(sortByOrder).map(p=>{
+    const sizes=(p.sizes||[]).sort(sortByOrder).map(s=>'<div class="size"><strong>'+esc(s.name)+(s.status==='inactive'?'（停用）':'')+'</strong><span>'+esc(s.width)+' × '+esc(s.height)+' / '+esc(s.platform)+'</span><span><button class="small" onclick="editSize(\''+esc(p.id)+'\',\''+esc(s.id)+'\')">編輯</button> <button class="small danger" onclick="deleteSize(\''+esc(p.id)+'\',\''+esc(s.id)+'\')">刪除</button></span></div>').join('');
+    return '<div class="group '+esc(p.theme||'blue')+'"><div class="group-head"><div><h3>'+esc(p.icon||'')+' '+esc(p.name)+(p.status==='inactive'?'（停用）':'')+'</h3><p>'+esc(p.description||'')+'</p></div><div class="mini-actions"><button class="small" onclick="editPlacement(\''+esc(p.id)+'\')">編輯</button><button class="small danger" onclick="deletePlacement(\''+esc(p.id)+'\')">刪除</button></div></div>'+sizes+'</div>';
+  }).join('');
+  document.getElementById('jsonPreview').textContent=JSON.stringify(data,null,2);
+}
+
+function resetPlacementForm(){document.getElementById('placementId').value='';document.getElementById('placementFormTitle').textContent='新增 / 編輯版位';['pName','pIcon','pBadge','pDesc','pUrl'].forEach(id=>document.getElementById(id).value='');document.getElementById('pTheme').value='blue';document.getElementById('pOrder').value=(data.placements.length+1);document.getElementById('pStatus').value='active'}
+function resetSizeForm(){document.getElementById('sizeId').value='';document.getElementById('sizeFormTitle').textContent='新增 / 編輯尺寸';['sName','sWidth','sHeight','sIcon','sUrl'].forEach(id=>document.getElementById(id).value='');document.getElementById('sPlatform').value='All';document.getElementById('sOrder').value='1';document.getElementById('sColor').value='si-blue';document.getElementById('sStatus').value='active'}
+
+document.getElementById('savePlacement').onclick=()=>{
+  const name=document.getElementById('pName').value.trim(); if(!name) return alert('請輸入版位名稱');
+  const id=document.getElementById('placementId').value || slugify(name);
+  let p=data.placements.find(x=>x.id===id);
+  if(!p){p={id,sizes:[]};data.placements.push(p)}
+  Object.assign(p,{name,theme:document.getElementById('pTheme').value,icon:document.getElementById('pIcon').value||'★',badge:document.getElementById('pBadge').value,description:document.getElementById('pDesc').value,toolUrl:document.getElementById('pUrl').value||'#',order:Number(document.getElementById('pOrder').value)||999,status:document.getElementById('pStatus').value});
+  saveLocal(); resetPlacementForm();
+}
+document.getElementById('saveSize').onclick=()=>{
+  const pid=document.getElementById('sPlacement').value; const p=data.placements.find(x=>x.id===pid); if(!p) return alert('請先新增版位');
+  const name=document.getElementById('sName').value.trim(); if(!name) return alert('請輸入尺寸名稱');
+  const id=document.getElementById('sizeId').value || slugify(name);
+  let s=(p.sizes||[]).find(x=>x.id===id); if(!s){s={id};p.sizes=p.sizes||[];p.sizes.push(s)}
+  Object.assign(s,{name,width:Number(document.getElementById('sWidth').value)||0,height:Number(document.getElementById('sHeight').value)||0,platform:document.getElementById('sPlatform').value,icon:document.getElementById('sIcon').value||'▭',color:document.getElementById('sColor').value,toolUrl:document.getElementById('sUrl').value||p.toolUrl||'#',order:Number(document.getElementById('sOrder').value)||999,status:document.getElementById('sStatus').value});
+  saveLocal(); resetSizeForm();
+}
+
+window.editPlacement=(id)=>{const p=data.placements.find(x=>x.id===id); if(!p)return;document.getElementById('placementId').value=p.id;document.getElementById('placementFormTitle').textContent='編輯版位：'+p.name;document.getElementById('pName').value=p.name||'';document.getElementById('pTheme').value=p.theme||'blue';document.getElementById('pOrder').value=p.order||1;document.getElementById('pIcon').value=p.icon||'';document.getElementById('pBadge').value=p.badge||'';document.getElementById('pDesc').value=p.description||'';document.getElementById('pUrl').value=p.toolUrl||'';document.getElementById('pStatus').value=p.status||'active';scrollTo({top:0,behavior:'smooth'})}
+window.deletePlacement=(id)=>{if(confirm('確定刪除這個版位與底下所有尺寸？')){data.placements=data.placements.filter(p=>p.id!==id);saveLocal()}}
+window.editSize=(pid,sid)=>{const p=data.placements.find(x=>x.id===pid);const s=p?.sizes?.find(x=>x.id===sid);if(!s)return;document.getElementById('sizeId').value=s.id;document.getElementById('sizeFormTitle').textContent='編輯尺寸：'+s.name;document.getElementById('sPlacement').value=pid;document.getElementById('sName').value=s.name||'';document.getElementById('sWidth').value=s.width||'';document.getElementById('sHeight').value=s.height||'';document.getElementById('sPlatform').value=s.platform||'All';document.getElementById('sOrder').value=s.order||1;document.getElementById('sIcon').value=s.icon||'';document.getElementById('sColor').value=s.color||'si-blue';document.getElementById('sUrl').value=s.toolUrl||'';document.getElementById('sStatus').value=s.status||'active';scrollTo({top:460,behavior:'smooth'})}
+window.deleteSize=(pid,sid)=>{if(confirm('確定刪除這個尺寸？')){const p=data.placements.find(x=>x.id===pid);p.sizes=p.sizes.filter(s=>s.id!==sid);saveLocal()}}
+
+document.getElementById('resetPlacement').onclick=resetPlacementForm;document.getElementById('resetSize').onclick=resetSizeForm;
+document.getElementById('exportJson').onclick=()=>download('banner-tools-data.json',JSON.stringify(data,null,2));
+document.getElementById('copyJson').onclick=async()=>{await navigator.clipboard.writeText(JSON.stringify(data,null,2));alert('已複製 JSON')};
+document.getElementById('resetAll').onclick=()=>{if(confirm('確定還原預設資料？')){data=structuredClone(DEFAULT_DATA);saveLocal()}};
+document.getElementById('importFile').onchange=(e)=>{const file=e.target.files[0]; if(!file)return; const reader=new FileReader(); reader.onload=()=>{try{data=JSON.parse(reader.result);saveLocal();alert('匯入完成')}catch(err){alert('JSON 格式錯誤')}}; reader.readAsText(file)};
+
+resetPlacementForm(); resetSizeForm(); render();
+</script>
+</body>
+</html>

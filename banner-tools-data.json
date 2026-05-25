@@ -1,0 +1,142 @@
+{
+  "version": "1.0.0",
+  "updatedAt": "2026-05-25",
+  "placements": [
+    {
+      "id": "brand-max-bn",
+      "name": "Brand max BN",
+      "theme": "blue",
+      "icon": "★",
+      "badge": "熱門",
+      "description": "品牌最大曝光版位，適合大型活動與主視覺呈現。",
+      "toolUrl": "https://jimmywu-commits.github.io/rd/hbn.html",
+      "order": 1,
+      "status": "active",
+      "sizes": [
+        {
+          "id": "dd-card-bn",
+          "name": "DD Card BN",
+          "width": 531,
+          "height": 792,
+          "platform": "All",
+          "icon": "▯",
+          "color": "si-blue",
+          "toolUrl": "https://jimmywu-commits.github.io/rd/hbn.html",
+          "order": 1,
+          "status": "active"
+        },
+        {
+          "id": "float-icon",
+          "name": "Float ICON",
+          "width": 360,
+          "height": 360,
+          "platform": "All",
+          "icon": "▭",
+          "color": "si-pink",
+          "toolUrl": "https://jimmywu-commits.github.io/rd/floating.html",
+          "order": 1,
+          "status": "active"
+        },
+        {
+          "id": "c2c-hbn",
+          "name": "C2C HBN",
+          "width": 1200,
+          "height": 360,
+          "platform": "All",
+          "icon": "▭",
+          "color": "si-purple",
+          "toolUrl": "https://jimmywu-commits.github.io/rd/hbn.html",
+          "order": 2,
+          "status": "active"
+        }
+      ]
+    },
+    {
+      "id": "sba",
+      "name": "SBA",
+      "theme": "purple",
+      "icon": "▣",
+      "badge": "熱門",
+      "description": "SBA 活動版位，適用於多種促銷與曝光需求。",
+      "toolUrl": "https://jimmywu-commits.github.io/rd/sba.html",
+      "order": 2,
+      "status": "active",
+      "sizes": [
+        {
+          "id": "sba-banner",
+          "name": "SBA Banner",
+          "width": 1200,
+          "height": 360,
+          "platform": "All",
+          "icon": "▭",
+          "color": "si-purple",
+          "toolUrl": "https://jimmywu-commits.github.io/rd/sba.html",
+          "order": 1,
+          "status": "active"
+        }
+      ]
+    },
+    {
+      "id": "jbp",
+      "name": "JBP單店資交",
+      "theme": "green",
+      "icon": "▤",
+      "badge": "最新",
+      "description": "JBP 單店資交版位，提升單店曝光度。",
+      "toolUrl": "#",
+      "order": 3,
+      "status": "inactive",
+      "sizes": [
+        {
+          "id": "jbp-banner",
+          "name": "JBP Banner",
+          "width": 1200,
+          "height": 360,
+          "platform": "All",
+          "icon": "▭",
+          "color": "si-green",
+          "toolUrl": "https://github.com/",
+          "order": 1,
+          "status": "active"
+        }
+      ]
+    },
+    {
+      "id": "home-bn",
+      "name": "Search Banner",
+      "theme": "orange",
+      "icon": "⌂",
+      "badge": "熱門",
+      "description": "首頁主視覺 Banner，適合品牌與大型活動曝光。",
+      "toolUrl": "https://jimmywu-commits.github.io/rd/sba.html",
+      "order": 4,
+      "status": "active",
+      "sizes": [
+        {
+          "id": "search-banner-app",
+          "name": "Search Banner (App)",
+          "width": 1200,
+          "height": 400,
+          "platform": "App",
+          "icon": "▯",
+          "color": "si-green",
+          "toolUrl": "https://jimmywu-commits.github.io/rd/sba.html",
+          "order": 1,
+          "status": "active"
+        },
+        {
+          "id": "search-banner-pc",
+          "name": "Search Banner (PC)",
+          "width": 1200,
+          "height": 200,
+          "platform": "PC",
+          "icon": "▭",
+          "color": "si-orange",
+          "toolUrl": "https://jimmywu-commits.github.io/rd/sba.html",
+          "order": 2,
+          "status": "active"
+        }
+      ]
+    }
+  ]
+}

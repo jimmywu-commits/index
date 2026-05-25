@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>版位選擇中心</title>
+<style>
+
+:root{--bg:#f5f7fc;--ink:#10203f;--muted:#5f6b87;--line:#dfe6f3;--navy:#10264d}
+*{box-sizing:border-box}
+body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Noto Sans TC",Arial,sans-serif;background:radial-gradient(circle at 20% 0%,#eef6ff 0,#f5f7fc 35%,#f2f4f9 100%);color:var(--ink)}
+.wrap{max-width:1480px;margin:0 auto;padding:28px 30px 38px}
+.header{display:flex;justify-content:space-between;align-items:flex-start;gap:24px;margin-bottom:28px}
+.brand{display:flex;align-items:center;gap:18px}
+.logo{width:54px;height:54px;border-radius:14px;background:linear-gradient(135deg,#2563eb,#60a5fa);display:grid;place-items:center;color:white;font-size:28px;box-shadow:0 10px 24px rgba(37,99,235,.22)}
+h1{margin:0;font-size:34px;line-height:1.1;letter-spacing:-.04em}
+.subtitle{margin-top:8px;color:var(--muted);font-size:16px}
+button,.btn{border:0;border-radius:12px;background:linear-gradient(135deg,#071b3c,#183765);color:#fff;font-weight:900;padding:13px 18px;cursor:pointer;text-decoration:none;display:inline-flex;align-items:center;justify-content:center;gap:8px}
+.btn-light{background:#fff;color:#16305e;border:1px solid var(--line);box-shadow:0 5px 14px rgba(15,23,42,.06)}
+.control,input,select,textarea{border:1px solid var(--line);border-radius:13px;background:#fff;padding:0 16px;font-size:15px;color:#17213d;box-shadow:0 6px 16px rgba(15,23,42,.04)}
+input,select{height:52px} textarea{width:100%;min-height:86px;padding:13px 14px;resize:vertical}
+.blue{background:linear-gradient(135deg,#1d5fe9,#55b6ff)}
+.purple{background:linear-gradient(135deg,#6d28d9,#b66cff)}
+.green{background:linear-gradient(135deg,#16a34a,#69ddb1)}
+.orange{background:linear-gradient(135deg,#fb8500,#ffbc5f)}
+.pink{background:linear-gradient(135deg,#ec4899,#f9a8d4)}
+.teal{background:linear-gradient(135deg,#0891b2,#67e8f9)}
+.si-blue{background:#eaf2ff;color:#2563eb}.si-purple{background:#f1e9ff;color:#7c3aed}.si-green{background:#e9fbf0;color:#16a34a}.si-orange{background:#fff4df;color:#f59e0b}.si-pink{background:#fdf2f8;color:#db2777}.si-teal{background:#ecfeff;color:#0891b2}
+@media (max-width:760px){.wrap{padding:20px}.header{flex-direction:column}h1{font-size:28px}}
+
+.top-actions{display:flex;gap:12px}
+.filters{display:grid;grid-template-columns:minmax(260px,1.9fr) repeat(3,minmax(160px,.75fr)) auto;gap:16px;margin-bottom:30px}
+.clear{min-width:118px}
+.section-head{display:flex;justify-content:space-between;align-items:center;margin:18px 0 16px}
+.section-title{margin:0;font-size:20px;letter-spacing:-.02em}
+.placement-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:22px;margin-bottom:34px}
+@media (min-width:1100px){.placement-grid{grid-template-columns:repeat(4,minmax(0,1fr))}}
+.placement-card{min-height:370px;border-radius:22px;padding:30px;color:white;position:relative;overflow:hidden;display:flex;flex-direction:column;justify-content:space-between;box-shadow:0 18px 36px rgba(15,23,42,.12)}
+.placement-card:before{content:"";position:absolute;inset:auto -60px -80px auto;width:210px;height:210px;border-radius:50%;background:rgba(255,255,255,.14)}
+.card-content{position:relative;z-index:1}.icon{width:82px;height:82px;border-radius:50%;display:grid;place-items:center;background:rgba(255,255,255,.22);font-size:38px;margin-bottom:26px}
+.placement-name{font-size:30px;font-weight:900;letter-spacing:-.04em;margin-bottom:14px}.badge{display:inline-block;transform:translateY(-5px);margin-left:8px;color:#2563eb;background:rgba(255,255,255,.88);border-radius:999px;padding:5px 10px;font-size:13px;font-weight:900}
+.desc{font-size:17px;line-height:1.8;font-weight:650;opacity:.96}.count{margin-top:18px;font-weight:800;opacity:.95}
+.start{position:relative;z-index:1;width:100%;height:58px;border-radius:12px;background:linear-gradient(135deg,#071b3c,#183765);color:#fff;font-size:19px;font-weight:900;text-decoration:none;display:flex;align-items:center;justify-content:center;gap:10px}
+.size-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(205px,1fr));gap:14px}
+.size-card{min-height:88px;background:#fff;border:1px solid var(--line);border-radius:12px;padding:14px 16px;display:flex;align-items:center;gap:14px;text-decoration:none;color:var(--ink);box-shadow:0 5px 14px rgba(15,23,42,.04);transition:.16s ease}
+.size-card:hover{transform:translateY(-2px);box-shadow:0 12px 24px rgba(15,23,42,.08)}.size-icon{width:46px;height:46px;border-radius:11px;display:grid;place-items:center;font-size:22px;flex:0 0 auto}
+.size-info{flex:1}.size-name{font-weight:900;margin-bottom:6px}.size-dim{font-weight:800;color:#17213d}.arrow{font-size:24px;color:#51617f}
+.notice{margin-top:18px;background:#fff7e6;color:#935f00;border:1px solid #fde3a8;border-radius:12px;padding:16px 20px;display:flex;justify-content:space-between;align-items:center;gap:16px;font-weight:750}
+.notice a{color:#8a5200;text-decoration:none;border:1px solid #f2c874;background:#fffaf0;padding:10px 14px;border-radius:10px}
+.empty{grid-column:1/-1;background:#fff;border:1px dashed #c9d4e6;border-radius:18px;padding:36px;text-align:center;color:var(--muted);font-weight:800}
+@media (max-width:920px){.filters{grid-template-columns:1fr 1fr}.placement-card{min-height:310px}}
+@media (max-width:560px){.filters{grid-template-columns:1fr}.top-actions{width:100%}.top-actions .btn{flex:1}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header class="header">
+  <div class="brand"><div class="logo">✎</div><div><h1>版位選擇中心</h1><div class="subtitle">選擇適合的版位與尺寸，開始製作您的 Banner</div></div></div>
+  <div class="top-actions"><a class="btn btn-light" href="admin.html">管理後台</a><button class="btn btn-light">☆ 我的收藏</button></div>
+</header>
+<section class="filters">
+  <input id="keyword" class="control" type="search" placeholder="搜尋版位 / 尺寸名稱 / 關鍵字...">
+  <select id="placementFilter" class="control"><option value="">全部版位</option></select>
+  <select id="platformFilter" class="control"><option value="">全部平台</option><option value="All">All</option><option value="App">App</option><option value="PC">PC</option></select>
+  <select id="sizeFilter" class="control"><option value="">全部尺寸</option></select>
+  <button class="clear" id="clearBtn">↻ 清除篩選</button>
+</section>
+<div class="section-head"><h2 class="section-title">版位分類（大項目）</h2></div>
+<section id="placementGrid" class="placement-grid"></section>
+<div class="section-head"><h2 class="section-title">常用尺寸（快速選擇）</h2><a class="btn btn-light" href="#sizeGrid">查看全部尺寸 →</a></div>
+<section id="sizeGrid" class="size-grid"></section>
+<div class="notice"><span>☆ 小提醒：點擊版位卡片或尺寸卡片後，將導向製作工具開始編輯。</span><a href="#">前往使用說明</a></div>
+</div>
+<script>
+const DATA_URL = './banner-tools-data.json';
+let data = {placements: []};
+
+async function loadData(){
+  try{
+    const res = await fetch(DATA_URL + '?v=' + Date.now(), {cache:'no-store'});
+    if(!res.ok) throw new Error('JSON not found');
+    data = await res.json();
+  }catch(e){
+    document.getElementById('placementGrid').innerHTML = '<div class="empty">找不到 banner-tools-data.json。請確認 JSON 與 index.html 放在同一層。</div>';
+    return;
+  }
+  initFilters(); render();
+}
+const placementGrid=document.getElementById('placementGrid'), sizeGrid=document.getElementById('sizeGrid'), keyword=document.getElementById('keyword'), placementFilter=document.getElementById('placementFilter'), platformFilter=document.getElementById('platformFilter'), sizeFilter=document.getElementById('sizeFilter'), clearBtn=document.getElementById('clearBtn');
+function sortByOrder(a,b){return (a.order||999)-(b.order||999)}
+function activeOnly(items){return (items||[]).filter(x=>x.status!=='inactive').sort(sortByOrder)}
+function initFilters(){
+  placementFilter.innerHTML='<option value="">全部版位</option>'; sizeFilter.innerHTML='<option value="">全部尺寸</option>';
+  activeOnly(data.placements).forEach(p=>{ const opt=document.createElement('option'); opt.value=p.id; opt.textContent=p.name; placementFilter.appendChild(opt); });
+  [...new Set(activeOnly(data.placements).flatMap(p=>activeOnly(p.sizes).map(s=>`${s.width}x${s.height}`)))].forEach(size=>{const opt=document.createElement('option'); opt.value=size; opt.textContent=size; sizeFilter.appendChild(opt);});
+}
+function matchText(text,q){return String(text).toLowerCase().includes(q.toLowerCase())}
+function getFiltered(){
+  const q=keyword.value.trim(), pid=placementFilter.value, platform=platformFilter.value, dim=sizeFilter.value;
+  return activeOnly(data.placements).filter(p=>!pid||p.id===pid).map(p=>{
+    const sizes=activeOnly(p.sizes).filter(s=>{
+      const sizeText=`${s.width}x${s.height}`;
+      return (!q||matchText(`${p.name} ${p.description} ${s.name} ${sizeText} ${s.platform}`,q)) && (!platform||s.platform===platform) && (!dim||sizeText===dim);
+    });
+    const placementHit=!q||matchText(`${p.name} ${p.description}`,q);
+    return {...p,sizes,visible:placementHit||sizes.length>0};
+  }).filter(p=>p.visible);
+}
+function esc(v){return String(v ?? '').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]))}
+function render(){
+  const placements=getFiltered();
+  placementGrid.innerHTML = placements.length ? placements.map(p=>`
+    <article class="placement-card ${esc(p.theme||'blue')}">
+      <div class="card-content">
+        <div class="icon">${esc(p.icon||'★')}</div>
+        <div class="placement-name">${esc(p.name)}${p.badge?`<span class="badge">${esc(p.badge)}</span>`:''}</div>
+        <div class="desc">${esc(p.description||'')}</div>
+        <div class="count">包含 ${activeOnly(p.sizes).length} 種尺寸</div>
+      </div>
+      <a class="start" href="${esc(p.toolUrl||'#')}" target="_blank" rel="noopener">🚀 開始製作</a>
+    </article>`).join('') : '<div class="empty">沒有符合條件的版位</div>';
+  const sizeItems=placements.flatMap(p=>activeOnly(p.sizes).map(s=>({...s,placementName:p.name})));
+  sizeGrid.innerHTML = sizeItems.length ? sizeItems.map(s=>`
+    <a class="size-card" href="${esc(s.toolUrl||'#')}" target="_blank" rel="noopener">
+      <div class="size-icon ${esc(s.color||'si-blue')}">${esc(s.icon||'▭')}</div>
+      <div class="size-info"><div class="size-name">${esc(s.name)}</div><div class="size-dim">${esc(s.width)} × ${esc(s.height)}</div></div>
+      <div class="arrow">›</div>
+    </a>`).join('') : '<div class="empty">沒有符合條件的尺寸</div>';
+}
+[keyword,placementFilter,platformFilter,sizeFilter].forEach(el=>el.addEventListener('input',render));
+clearBtn.addEventListener('click',()=>{keyword.value='';placementFilter.value='';platformFilter.value='';sizeFilter.value='';render();});
+loadData();
+</script>
+</body>
+</html>
