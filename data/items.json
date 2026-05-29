@@ -167,7 +167,7 @@
   {
     "img": "https://raw.githubusercontent.com/jimmywu-commits/index/refs/heads/main/ddcard.jpg",
     "title": "DDCard編輯系統",
-    "url": "#",
+    "url": "https://jimmywu-commits.github.io/rd/ddcard.html",
     "cats": [
       "全部"
     ],
@@ -202,6 +202,15 @@
     "img": "https://github.com/jimmywu-commits/rd/blob/main/%E7%A8%8B%E5%BC%8F%E6%AA%94%E6%A1%88/freelancer_icon.png?raw=true",
     "title": "Prompt 構圖工具",
     "url": "https://jimmywu-commits.github.io/rd/freely.html",
+    "cats": [
+      "全部"
+    ],
+    "stroke": 1
+  },
+  {
+    "img": "編輯器首頁縮圖.png",
+    "title": "編輯器首頁",
+    "url": "https://jimmywu-commits.github.io/index/bnindex.html",
     "cats": [
       "全部"
     ],
