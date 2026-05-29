@@ -37,6 +37,9 @@ h2{margin:0 0 16px} label{display:block;margin:13px 0 7px;font-weight:850} .row{
 .size strong{display:block}.jsonbox{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;background:#0b1220;color:#dbeafe;border-radius:16px;padding:16px;white-space:pre;overflow:auto;max-height:360px;font-size:13px}
 .hint{background:#fff7e6;color:#935f00;border:1px solid #fde3a8;border-radius:12px;padding:13px 15px;margin-bottom:16px;font-weight:750;line-height:1.6}
 .file-input{height:auto;padding:12px}
+.setting-box{background:#f8fbff;border:1px solid var(--line);border-radius:16px;padding:16px;margin-bottom:18px}
+.setting-box h2{margin-bottom:10px}
+.setting-box .actions{margin-bottom:0}
 @media(max-width:980px){.layout{grid-template-columns:1fr}}
 </style>
 </head>
@@ -44,13 +47,19 @@ h2{margin:0 0 16px} label{display:block;margin:13px 0 7px;font-weight:850} .row{
 <div class="wrap">
 <header class="header">
   <div class="brand"><div class="logo">⚙</div><div><h1>Banner Tool 後台管理</h1><div class="subtitle">維護版位、尺寸、顏色主題與 GitHub Tool URL，並匯出 banner-tools-data.json。</div></div></div>
-  <a class="btn btn-light" href="index.html">回前台</a>
+  <a class="btn btn-light" href="bnindex.html">回前台</a>
 </header>
 
 <div class="hint">存檔會先存在瀏覽器 localStorage；要讓前台更新，請按「匯出 JSON」，下載後覆蓋同層的 <b>banner-tools-data.json</b>。</div>
 
 <div class="layout">
 <section class="panel">
+  <div class="setting-box">
+    <h2>前台底部提示設定</h2>
+    <label>提示文字</label><textarea id="noticeText" placeholder="例如：☆ 小提醒：點擊版位卡片或尺寸卡片後，將導向製作工具開始編輯。"></textarea>
+    <div class="row"><div><label>按鈕名稱</label><input id="noticeButtonText" placeholder="例如：前往使用說明"></div><div><label>按鈕導連網址</label><input id="noticeButtonUrl" placeholder="https://..."></div></div>
+    <div class="actions"><button id="saveSettings">儲存底部提示</button></div>
+  </div>
   <h2 id="placementFormTitle">新增 / 編輯版位</h2>
   <input type="hidden" id="placementId">
   <label>版位名稱</label><input id="pName" placeholder="例如：Brand max BN">
@@ -95,6 +104,11 @@ h2{margin:0 0 16px} label{display:block;margin:13px 0 7px;font-weight:850} .row{
 const DEFAULT_DATA = {
   "version": "1.0.0",
   "updatedAt": "2026-05-25",
+  "siteSettings": {
+    "noticeText": "☆ 小提醒：點擊版位卡片或尺寸卡片後，將導向製作工具開始編輯。",
+    "noticeButtonText": "前往使用說明",
+    "noticeButtonUrl": "#"
+  },
   "placements": [
     {
       "id": "brand-max-bn",
@@ -224,14 +238,27 @@ const DEFAULT_DATA = {
 };
 const STORAGE_KEY='bannerToolsDataV1';
 let data = loadLocal();
+ensureSiteSettings();
 
+function ensureSiteSettings(){
+  data.siteSettings=data.siteSettings||{};
+  data.siteSettings.noticeText=data.siteSettings.noticeText ?? '☆ 小提醒：點擊版位卡片或尺寸卡片後，將導向製作工具開始編輯。';
+  data.siteSettings.noticeButtonText=data.siteSettings.noticeButtonText ?? '前往使用說明';
+  data.siteSettings.noticeButtonUrl=data.siteSettings.noticeButtonUrl ?? '#';
+}
 function slugify(str){return String(str||'item').trim().toLowerCase().replace(/[\s_]+/g,'-').replace(/[^a-z0-9\-\u4e00-\u9fa5]/g,'').replace(/-+/g,'-') || ('item-'+Date.now())}
 function loadLocal(){try{return JSON.parse(localStorage.getItem(STORAGE_KEY)) || structuredClone(DEFAULT_DATA)}catch(e){return structuredClone(DEFAULT_DATA)}}
-function saveLocal(){data.updatedAt=new Date().toISOString().slice(0,10);localStorage.setItem(STORAGE_KEY,JSON.stringify(data));render()}
+function saveLocal(){ensureSiteSettings();data.updatedAt=new Date().toISOString().slice(0,10);localStorage.setItem(STORAGE_KEY,JSON.stringify(data));render()}
 function sortByOrder(a,b){return (Number(a.order)||999)-(Number(b.order)||999)}
 function esc(v){return String(v ?? '').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]))}
 function download(filename, content, type='application/json'){const blob=new Blob([content],{type});const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=filename;a.click();setTimeout(()=>URL.revokeObjectURL(a.href),500)}
 
+function renderSettings(){
+  ensureSiteSettings();
+  document.getElementById('noticeText').value=data.siteSettings.noticeText||'';
+  document.getElementById('noticeButtonText').value=data.siteSettings.noticeButtonText||'';
+  document.getElementById('noticeButtonUrl').value=data.siteSettings.noticeButtonUrl||'';
+}
 function updatePlacementSelect(){
   const sel=document.getElementById('sPlacement');
   sel.innerHTML='';
@@ -239,6 +266,8 @@ function updatePlacementSelect(){
 }
 
 function render(){
+  ensureSiteSettings();
+  renderSettings();
   updatePlacementSelect();
   const list=document.getElementById('list');
   list.innerHTML=[...data.placements].sort(sortByOrder).map(p=>{
@@ -250,6 +279,15 @@ function render(){
 
 function resetPlacementForm(){document.getElementById('placementId').value='';document.getElementById('placementFormTitle').textContent='新增 / 編輯版位';['pName','pIcon','pBadge','pDesc','pUrl'].forEach(id=>document.getElementById(id).value='');document.getElementById('pTheme').value='blue';document.getElementById('pOrder').value=(data.placements.length+1);document.getElementById('pStatus').value='active'}
 function resetSizeForm(){document.getElementById('sizeId').value='';document.getElementById('sizeFormTitle').textContent='新增 / 編輯尺寸';['sName','sWidth','sHeight','sIcon','sUrl'].forEach(id=>document.getElementById(id).value='');document.getElementById('sPlatform').value='All';document.getElementById('sOrder').value='1';document.getElementById('sColor').value='si-blue';document.getElementById('sStatus').value='active'}
+
+document.getElementById('saveSettings').onclick=()=>{
+  ensureSiteSettings();
+  data.siteSettings.noticeText=document.getElementById('noticeText').value || '☆ 小提醒：點擊版位卡片或尺寸卡片後，將導向製作工具開始編輯。';
+  data.siteSettings.noticeButtonText=document.getElementById('noticeButtonText').value || '前往使用說明';
+  data.siteSettings.noticeButtonUrl=document.getElementById('noticeButtonUrl').value || '#';
+  saveLocal();
+  alert('底部提示設定已儲存');
+}
 
 document.getElementById('savePlacement').onclick=()=>{
   const name=document.getElementById('pName').value.trim(); if(!name) return alert('請輸入版位名稱');

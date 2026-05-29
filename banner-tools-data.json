@@ -138,5 +138,10 @@
         }
       ]
     }
-  ]
+  ],
+  "siteSettings": {
+    "noticeText": "☆ 使用之前可以詳細閱讀公開說明書，取得最佳的使用體驗。",
+    "noticeButtonText": "前往使用說明",
+    "noticeButtonUrl": "https://docs.google.com/presentation/d/1xKfwM5JEqkOfCtoXsHp6x8jYhpBAcI18GVJxX-2h-Pw/edit?slide=id.p1#slide=id.p1"
+  }
 }

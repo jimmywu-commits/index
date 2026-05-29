@@ -72,7 +72,7 @@ input,select{height:52px} textarea{width:100%;min-height:86px;padding:13px 14px;
 <section id="placementGrid" class="placement-grid"></section>
 <div class="section-head"><h2 class="section-title">常用尺寸（快速選擇）</h2><a class="btn btn-light" href="#sizeGrid">查看全部尺寸 →</a></div>
 <section id="sizeGrid" class="size-grid"></section>
-<div class="notice"><span>☆ 小提醒：點擊版位卡片或尺寸卡片後，將導向製作工具開始編輯。</span><a href="#">前往使用說明</a></div>
+<div id="noticeBox" class="notice"></div>
 </div>
 <script>
 const DATA_URL = './banner-tools-data.json';
@@ -89,7 +89,7 @@ async function loadData(){
   }
   initFilters(); render();
 }
-const placementGrid=document.getElementById('placementGrid'), sizeGrid=document.getElementById('sizeGrid'), keyword=document.getElementById('keyword'), placementFilter=document.getElementById('placementFilter'), platformFilter=document.getElementById('platformFilter'), sizeFilter=document.getElementById('sizeFilter'), clearBtn=document.getElementById('clearBtn');
+const placementGrid=document.getElementById('placementGrid'), sizeGrid=document.getElementById('sizeGrid'), noticeBox=document.getElementById('noticeBox'), keyword=document.getElementById('keyword'), placementFilter=document.getElementById('placementFilter'), platformFilter=document.getElementById('platformFilter'), sizeFilter=document.getElementById('sizeFilter'), clearBtn=document.getElementById('clearBtn');
 function sortByOrder(a,b){return (a.order||999)-(b.order||999)}
 function activeOnly(items){return (items||[]).filter(x=>x.status!=='inactive').sort(sortByOrder)}
 function initFilters(){
@@ -110,7 +110,16 @@ function getFiltered(){
   }).filter(p=>p.visible);
 }
 function esc(v){return String(v ?? '').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]))}
+function renderNotice(){
+  const settings=data.siteSettings||{};
+  const text=settings.noticeText ?? '☆ 小提醒：點擊版位卡片或尺寸卡片後，將導向製作工具開始編輯。';
+  const buttonText=settings.noticeButtonText ?? '前往使用說明';
+  const buttonUrl=settings.noticeButtonUrl ?? '#';
+  if(!noticeBox) return;
+  noticeBox.innerHTML=`<span>${esc(text)}</span><a href="${esc(buttonUrl||'#')}" target="_blank" rel="noopener">${esc(buttonText||'前往使用說明')}</a>`;
+}
 function render(){
+  renderNotice();
   const placements=getFiltered();
   placementGrid.innerHTML = placements.length ? placements.map(p=>`
     <article class="placement-card ${esc(p.theme||'blue')}">
