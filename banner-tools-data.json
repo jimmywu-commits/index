@@ -1,6 +1,6 @@
 {
   "version": "1.0.0",
-  "updatedAt": "2026-05-25",
+  "updatedAt": "2026-05-29",
   "placements": [
     {
       "id": "brand-max-bn",
@@ -9,7 +9,7 @@
       "icon": "★",
       "badge": "熱門",
       "description": "品牌最大曝光版位，適合大型活動與主視覺呈現。",
-      "toolUrl": "https://jimmywu-commits.github.io/rd/hbn.html",
+      "toolUrl": "https://jimmywu-commits.github.io/rd/ddcard.html",
       "order": 1,
       "status": "active",
       "sizes": [
@@ -21,7 +21,7 @@
           "platform": "All",
           "icon": "▯",
           "color": "si-blue",
-          "toolUrl": "https://jimmywu-commits.github.io/rd/hbn.html",
+          "toolUrl": "https://jimmywu-commits.github.io/rd/ddcard.html",
           "order": 1,
           "status": "active"
         },
@@ -47,13 +47,13 @@
           "color": "si-purple",
           "toolUrl": "https://jimmywu-commits.github.io/rd/hbn.html",
           "order": 2,
-          "status": "active"
+          "status": "inactive"
         }
       ]
     },
     {
       "id": "sba",
-      "name": "SBA",
+      "name": "Seach Banner AD",
       "theme": "purple",
       "icon": "▣",
       "badge": "熱門",
@@ -110,7 +110,7 @@
       "description": "首頁主視覺 Banner，適合品牌與大型活動曝光。",
       "toolUrl": "https://jimmywu-commits.github.io/rd/sba.html",
       "order": 4,
-      "status": "active",
+      "status": "inactive",
       "sizes": [
         {
           "id": "search-banner-app",
