@@ -1,6 +1,6 @@
 {
   "version": "1.0.0",
-  "updatedAt": "2026-05-29",
+  "updatedAt": "2026-06-01",
   "placements": [
     {
       "id": "brand-max-bn",
@@ -64,7 +64,7 @@
       "sizes": [
         {
           "id": "sba-banner",
-          "name": "APP版",
+          "name": "SBA APP版",
           "width": 1200,
           "height": 400,
           "platform": "App",
@@ -76,7 +76,7 @@
         },
         {
           "id": "pc版",
-          "name": "PC版",
+          "name": "SBA PC版",
           "width": 992,
           "height": 165,
           "platform": "PC",
