@@ -119,8 +119,9 @@
   {
     "img": "https://github.com/jimmywu-commits/index/blob/main/Gantt_v2.png?raw=true",
     "title": "專案甘特圖",
-    "url": "https://jimmywu-commits.github.io/gantt/",
+    "url": "https://jimmywu-commits.github.io/gantt/gatt_pro.html",
     "cats": [
+      "全部",
       "BC",
       "SBD",
       "CGD",
@@ -201,7 +202,7 @@
   {
     "img": "https://github.com/jimmywu-commits/rd/blob/main/%E7%A8%8B%E5%BC%8F%E6%AA%94%E6%A1%88/freelancer_icon.png?raw=true",
     "title": "Prompt 構圖工具",
-    "url": "https://jimmywu-commits.github.io/rd/freely.html",
+    "url": "https://jimmywu-commits.github.io/rd/freelyv8.html",
     "cats": [
       "全部"
     ],
