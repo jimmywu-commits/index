@@ -701,6 +701,9 @@
       });
 
       function normalizeLiveEditable(){
+        // Safety guard: never format while the element is still focused/active.
+        if (global.document && document.activeElement === el) return;
+
         const raw = getEditablePlainText(el);
         const result = transformText(raw, role);
 
@@ -715,7 +718,8 @@
       // Only normalize after the user leaves the editing area.
       // This prevents JS from rewriting text while the user is typing.
       el.addEventListener('blur', function(){
-        normalizeLiveEditable();
+        // Use setTimeout to ensure activeElement has updated before we check.
+        setTimeout(normalizeLiveEditable, 0);
       });
 
       el.addEventListener('paste', function(e){
