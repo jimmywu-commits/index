@@ -1,10 +1,10 @@
 {
   "version": "1.0.0",
-  "updatedAt": "2026-06-01",
+  "updatedAt": "2026-05-29",
   "placements": [
     {
       "id": "brand-max-bn",
-      "name": "Brand max AD",
+      "name": "Brand max BN",
       "theme": "blue",
       "icon": "★",
       "badge": "熱門",
@@ -53,7 +53,7 @@
     },
     {
       "id": "sba",
-      "name": "Seach Brand AD",
+      "name": "Search Banner AD",
       "theme": "purple",
       "icon": "▣",
       "badge": "熱門",
@@ -64,26 +64,14 @@
       "sizes": [
         {
           "id": "sba-banner",
-          "name": "SBA APP版",
+          "name": "SBA Banner",
           "width": 1200,
-          "height": 400,
-          "platform": "App",
+          "height": 360,
+          "platform": "All",
           "icon": "▭",
           "color": "si-purple",
           "toolUrl": "https://jimmywu-commits.github.io/rd/sba.html",
           "order": 1,
-          "status": "active"
-        },
-        {
-          "id": "pc版",
-          "name": "SBA PC版",
-          "width": 992,
-          "height": 165,
-          "platform": "PC",
-          "icon": "▭",
-          "color": "si-blue",
-          "toolUrl": "https://jimmywu-commits.github.io/rd/sba.html",
-          "order": 2,
           "status": "active"
         }
       ]
