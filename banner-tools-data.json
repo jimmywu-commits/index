@@ -66,7 +66,7 @@
           "id": "sba-banner",
           "name": "SBA Banner",
           "width": 1200,
-          "height": 360,
+          "height": 400,
           "platform": "All",
           "icon": "▭",
           "color": "si-purple",
