@@ -234,5 +234,14 @@
       "BC"
     ],
     "stroke": 1
+  },
+  {
+    "img": "Bottom.png",
+    "title": "吸底",
+    "url": "https://tsec-psd.github.io/Sticky-Bottom/",
+    "cats": [
+      "全部"
+    ],
+    "stroke": 1
   }
 ]
