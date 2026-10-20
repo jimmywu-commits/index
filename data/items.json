@@ -202,7 +202,7 @@
   {
     "img": "https://github.com/jimmywu-commits/rd/blob/main/%E7%A8%8B%E5%BC%8F%E6%AA%94%E6%A1%88/freelancer_icon.png?raw=true",
     "title": "Prompt 構圖工具",
-    "url": "https://jimmywu-commits.github.io/rd/freelyapp.html",
+    "url": "https://jimmywu-commits.github.io/freelyapp/index.html",
     "cats": [
       "全部"
     ],
@@ -227,7 +227,7 @@
     "stroke": 1
   },
   {
-    "img": "BOD A.png",
+    "img": "boda-pic.png",
     "title": "BOD A",
     "url": "https://jimmywu-commits.github.io/BODA/index.html#home",
     "cats": [
@@ -239,6 +239,15 @@
     "img": "Bottom.png",
     "title": "吸底",
     "url": "https://tsec-psd.github.io/Sticky-Bottom/",
+    "cats": [
+      "全部"
+    ],
+    "stroke": 1
+  },
+  {
+    "img": "boda-pic.png",
+    "title": "BOD A",
+    "url": "https://jimmywu-commits.github.io/BODA/index.html#import",
     "cats": [
       "全部"
     ],
