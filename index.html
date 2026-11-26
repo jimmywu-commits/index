@@ -7,8 +7,8 @@
 <meta name="robots" content="noindex">
 <meta http-equiv="refresh" content="0; url=https://script.google.com/a/macros/shopee.com/s/AKfycby5vABc_aC47quF4LF_rFeY2JyDhRnbQs6OLzU8_pTu2JohMftLp5TQex4NQ_gn4Wn6/exec">
 <script>
-  // 轉到 LLM 工具案例庫（Apps Script 網頁應用程式）；replace 不會在上一頁留下這個轉址頁
-  location.replace('https://script.google.com/a/macros/shopee.com/s/AKfycby5vABc_aC47quF4LF_rFeY2JyDhRnbQs6OLzU8_pTu2JohMftLp5TQex4NQ_gn4Wn6/exec');
+  // 轉到 LLM 工具案例庫（Apps Script 網頁應用程式），並保留 ?參數 和 #錨點（例如 #all 直接打開「查詢所有專案」）；replace 不會在上一頁留下這個轉址頁
+  location.replace('https://script.google.com/a/macros/shopee.com/s/AKfycby5vABc_aC47quF4LF_rFeY2JyDhRnbQs6OLzU8_pTu2JohMftLp5TQex4NQ_gn4Wn6/exec' + location.search + location.hash);
 </script>
 <style>
   :root { --bg: #f5f6f8; --surface: #fff; --text: #1c2430; --text-2: #545e6c; --accent: #4f46e5; --on-accent: #fff; --border: #e3e6eb; }
@@ -39,8 +39,12 @@
 <main>
   <h1>LLM 工具案例庫</h1>
   <p>正在前往案例庫……<br>如果沒有自動跳轉，請點下面的按鈕。</p>
-  <a href="https://script.google.com/a/macros/shopee.com/s/AKfycby5vABc_aC47quF4LF_rFeY2JyDhRnbQs6OLzU8_pTu2JohMftLp5TQex4NQ_gn4Wn6/exec">開啟 LLM 工具案例庫</a>
+  <a id="go" href="https://script.google.com/a/macros/shopee.com/s/AKfycby5vABc_aC47quF4LF_rFeY2JyDhRnbQs6OLzU8_pTu2JohMftLp5TQex4NQ_gn4Wn6/exec">開啟 LLM 工具案例庫</a>
   <small>需要用 Shopee 帳號登入</small>
 </main>
+<script>
+  // 手動點按鈕時一樣帶上 ?參數 和 #錨點
+  document.getElementById('go').href += location.search + location.hash;
+</script>
 </body>
 </html>
